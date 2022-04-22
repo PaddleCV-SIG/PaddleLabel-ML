@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  title: PP Label ML backend API
+  version: 0.0.1
+servers:
+  - url: 'http://localhost:1234/model'
+paths:
+  /:
+    get:
+      summary: Get all models
+      tags:
+        - model
+      responses:
+        '200':
+          description: All models
+      x-openapi-router-controller: pplabel_ml.api
+      operationId: getAll
+      description: Get all models
+  '/{model_name}/train':
+    post:
+      parameters:
+      - $ref: '#/components/parameters/model_name'
+      summary: Train a model
+      tags:
+        - model
+      x-openapi-router-controller: pplabel_ml.api
+      operationId: train
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data_dir:
+                  type: string
+                configs:
+                  type: string
+              required:
+                - data_dir
+                - configs
+      description: Train a model
+      responses:
+        '200':
+          description: Train model
+    get:
+      parameters:
+        - $ref: '#/components/parameters/model_name'
+      tags:
+        - model
+      summary: Get training progress
+      x-openapi-router-controller: pplabel_ml.api
+      operationId: getProgress
+      description: Get training progress
+      responses:
+        '200':
+          description: Get training progress
+  '/{model_name}/eval':
+    post:
+      parameters:
+        - $ref: '#/components/parameters/model_name'
+      tags:
+        - model
+      summary: Evaluate model performance 
+      x-openapi-router-controller: pplabel_ml.api
+      operationId: eval
+      description: Evaluate model performance
+      responses:
+        '200':
+          description: Evaluate model performance 
+  '/{model_name}/predict':
+    post:
+      parameters:
+      - $ref: '#/components/parameters/model_name'
+      summary: Predict
+      tags:
+        - model
+      x-openapi-router-controller: pplabel_ml.api
+      operationId: predict
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                img:
+                  type: string
+              required:
+                - img
+      description: Predict
+      responses:
+        '200':
+          description: Result
+  '/{model_name}/load':
+    get:
+      parameters:
+      - $ref: '#/components/parameters/model_name'
+      summary: Load a model into memory. Reduce predict latency
+      tags:
+        - model
+      x-openapi-router-controller: pplabel_ml.api
+      operationId: load
+      description: Load model
+      responses:
+        '200':
+          description: Result
+  '/{model_name}/unload':
+    get:
+      parameters:
+      - $ref: '#/components/parameters/model_name'
+      summary: Unload a model to free up memory
+      tags:
+        - model
+      x-openapi-router-controller: pplabel_ml.api
+      operationId: unload
+      description: Unload model
+      responses:
+        '200':
+          description: Result
+components:
+  schemas:
+    Model:
+      title: Model
+      type: object
+      properties:
+        name:
+          type: string
+        task_category:
+          type: string
+        framework:
+          type: string
+        comment:
+          type: string
+  parameters:
+    model_name:
+        name: model_name
+        in: path
+        schema:
+          type: string
+        description: model name
+        required: true

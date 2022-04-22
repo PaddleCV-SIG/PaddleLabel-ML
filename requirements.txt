@@ -1,0 +1,4 @@
+Pillow
+opencv-python
+numpy
+connexion[swagger-ui]
