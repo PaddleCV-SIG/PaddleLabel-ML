@@ -2,6 +2,7 @@ import json
 import time
 
 from connexion import request
+from flask import jsonify
 
 from pplabel_ml.model import models
 from pplabel_ml.util import abort
@@ -9,11 +10,14 @@ from pplabel_ml.util import abort
 global loaded_models
 loaded_models = {}
 
+def isRunning():
+    return True
+
 def getAll():
-    print()
-    return json.dumps({"name": "clas pdx"})
+    return [{"name":n} for n in models.keys()]
 
 def train(model_name):
+    print("train", model_name, models)
     model = load(model_name)
     if model.training:
         abort(f"Model {model_name} is in training", 500)

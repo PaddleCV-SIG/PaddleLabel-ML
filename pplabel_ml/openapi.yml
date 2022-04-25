@@ -3,7 +3,7 @@ info:
   title: PP Label ML backend API
   version: 0.0.1
 servers:
-  - url: 'http://localhost:1234/model'
+  - url: 'http://localhost:1234/'
 paths:
   /:
     get:
@@ -13,13 +13,34 @@ paths:
       responses:
         '200':
           description: All models
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Model'
       x-openapi-router-controller: pplabel_ml.api
       operationId: getAll
       description: Get all models
+  /running:
+    get:
+      summary: Detect ml backend running
+      tags:
+        - manage
+      responses:
+        '200':
+          description: ml backend running
+          content:
+            application/json:
+              schema:
+                type: string
+      x-openapi-router-controller: pplabel_ml.api
+      operationId: isRunning
+      description: Detect ml backend running
   '/{model_name}/train':
     post:
       parameters:
-      - $ref: '#/components/parameters/model_name'
+        - $ref: '#/components/parameters/model_name'
       summary: Train a model
       tags:
         - model
@@ -34,7 +55,7 @@ paths:
                 data_dir:
                   type: string
                 configs:
-                  type: string
+                  type: object
               required:
                 - data_dir
                 - configs
@@ -60,17 +81,17 @@ paths:
         - $ref: '#/components/parameters/model_name'
       tags:
         - model
-      summary: Evaluate model performance 
+      summary: Evaluate model performance
       x-openapi-router-controller: pplabel_ml.api
       operationId: eval
       description: Evaluate model performance
       responses:
         '200':
-          description: Evaluate model performance 
+          description: Evaluate model performance
   '/{model_name}/predict':
     post:
       parameters:
-      - $ref: '#/components/parameters/model_name'
+        - $ref: '#/components/parameters/model_name'
       summary: Predict
       tags:
         - model
@@ -93,7 +114,7 @@ paths:
   '/{model_name}/load':
     get:
       parameters:
-      - $ref: '#/components/parameters/model_name'
+        - $ref: '#/components/parameters/model_name'
       summary: Load a model into memory. Reduce predict latency
       tags:
         - model
@@ -106,7 +127,7 @@ paths:
   '/{model_name}/unload':
     get:
       parameters:
-      - $ref: '#/components/parameters/model_name'
+        - $ref: '#/components/parameters/model_name'
       summary: Unload a model to free up memory
       tags:
         - model
@@ -124,17 +145,17 @@ components:
       properties:
         name:
           type: string
+        description:
+          type: string
         task_category:
           type: string
         framework:
           type: string
-        comment:
-          type: string
   parameters:
     model_name:
-        name: model_name
-        in: path
-        schema:
-          type: string
-        description: model name
-        required: true
+      name: model_name
+      in: path
+      schema:
+        type: string
+      description: model name
+      required: true
