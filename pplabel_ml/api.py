@@ -2,7 +2,6 @@ import json
 import time
 
 from connexion import request
-from flask import jsonify
 
 from pplabel_ml.model import models
 from pplabel_ml.util import abort
@@ -20,14 +19,16 @@ def getAll():
 
 
 def train(model_name):
-    print("train", model_name, models)
+    print("train", model_name)
     model = load(model_name)
     if model.training:
-        abort(f"Model {model_name} is in training. Can't train this model till current train finishes.", 500)
+        abort(
+            f"Model {model_name} is in training. Can't train this model till current train finishes.",
+            500,
+        )
     model.training = True
     model.train(data_dir=request.json["data_dir"])
     model.training = False
-
 
 
 def eval(model_name):
@@ -39,7 +40,8 @@ def getProgress(model_name):
 
 
 def predict(model_name):
-    return json.dumps({"result": load(model_name).predict(request.json["img"])})
+    print(request.json)
+    return {"result": load(model_name).predict(request.json)}
 
 
 def load(model_name):

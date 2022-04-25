@@ -22,6 +22,14 @@ class BaseModel:
             self.output_path= osp.join(self.ckpt_path, "run", "1")
         else:
             self.output_path=osp.join(self.ckpt_path, "run", str(max(runs) + 1))
+    def get_image(self, req):
+        
+        if req['format'] == 'b64':
+            return self.decodeb64(req["img"])
+        
+        if req['format'] == 'path':
+            img = cv2.cvtColor(cv2.imread(req["img"]), cv2.COLOR_BGR2RGB)
+            return img
 
     def decodeb64(self, img_b64):
         img = img_b64.encode("ascii")

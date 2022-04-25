@@ -105,8 +105,13 @@ paths:
               properties:
                 img:
                   type: string
+                format:
+                  type: string
+                create_label:
+                  type: boolean
               required:
                 - img
+                - format
       description: Predict
       responses:
         '200':

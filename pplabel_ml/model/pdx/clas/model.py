@@ -42,10 +42,10 @@ class PdxMobilenetv2(BaseModel):
 
         print("output_path", self.output_path)
 
-    def predict(self, img):
+    def predict(self, req):
+        img = self.get_image(req)
         if self.model is None:
-            abort("")
-        img = self.decodeb64(img)
+            abort("Model is not loaded.")
         res = self.model.predict(img)
         return res[0]["category"]
 
@@ -81,7 +81,7 @@ class PdxMobilenetv2(BaseModel):
 
         print("save path", self.param_path, osp.basename(self.param_path))
         model.train(
-            num_epochs=1,
+            num_epochs=15,
             train_dataset=train_dataset,
             train_batch_size=8,  # 200m/sample
             eval_dataset=eval_dataset,
