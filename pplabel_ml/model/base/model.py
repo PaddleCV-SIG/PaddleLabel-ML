@@ -12,13 +12,16 @@ class BaseModel:
     name = "Base Model"
     def __init__(self, curr_path:str):
         self.ckpt_path = osp.join(curr_path, "ckpt")
+        
         os.makedirs(self.ckpt_path, exist_ok=True)
-        runs = os.listdir(self.ckpt_path)
-        runs = [int(n.split("_")[1]) for n in runs]
+        os.makedirs(osp.join(self.ckpt_path, "run"), exist_ok=True)
+        
+        runs = os.listdir(osp.join(self.ckpt_path, "run"))
+        runs = [int(n) for n in runs]
         if len(runs) == 0:
-            self.output_path= osp.join(self.ckpt_path, "run_1")
+            self.output_path= osp.join(self.ckpt_path, "run", "1")
         else:
-            self.output_path=osp.join(self.ckpt_path, f"run_{max(runs) + 1}")
+            self.output_path=osp.join(self.ckpt_path, "run", str(max(runs) + 1))
 
     def decodeb64(self, img_b64):
         img = img_b64.encode("ascii")

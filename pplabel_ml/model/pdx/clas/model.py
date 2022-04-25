@@ -7,6 +7,7 @@ import paddlex
 
 from pplabel_ml.model import BaseModel, add_model
 from pplabel_ml.util import abort
+from pplabel_ml.model.util import copycontent
 
 curr_path = osp.abspath(osp.dirname(__file__))
 
@@ -91,4 +92,5 @@ class PdxMobilenetv2(BaseModel):
             pretrain_weights=self.pretrain_weights_path,
             use_vdl=True,
         )
+        copycontent(osp.join(self.output_path, "best_model"), osp.join(self.ckpt_path, "best_model"))
         self.model = pdx.load_model(self.param_path)
