@@ -19,7 +19,7 @@ def getAll():
 
 
 def train(model_name):
-    print("train", model_name)
+    # print("train", model_name)
     model = load(model_name)
     if model.training:
         abort(
@@ -40,7 +40,7 @@ def getProgress(model_name):
 
 
 def predict(model_name):
-    print(request.json)
+    # print(request.json)
     return {"result": load(model_name).predict(request.json)}
 
 
