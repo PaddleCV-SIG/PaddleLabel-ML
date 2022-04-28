@@ -1,4 +1,3 @@
-import json
 import time
 
 from connexion import request
@@ -27,8 +26,12 @@ def train(model_name):
             500,
         )
     model.training = True
-    model.train(data_dir=request.json["data_dir"])
-    model.training = False
+    try:
+        model.train(data_dir=request.json["data_dir"])
+    except Exception as e:
+        raise e
+    finally:
+        model.training = False
 
 
 def eval(model_name):

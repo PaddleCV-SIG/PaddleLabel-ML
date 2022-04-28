@@ -7,6 +7,7 @@ from PIL import Image
 import cv2
 import numpy as np
 
+from pplabel_ml.util import abort
 
 class BaseModel:
     name = "Base Model"
@@ -38,3 +39,14 @@ class BaseModel:
         img = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2RGB)
         return img
     
+    def pretrain_check(self, data_dir, requirements={"multiple label":False, "files":['labels.txt', "train_list.txt", "val_list.txt"]}):
+
+        for fn in requirements['files']:
+            path = osp.join(data_dir, fn)
+            if not osp.exists(path):
+                abort(f"Required file {fn} not present", 404)
+            lines = open(path, "r").readlines()
+            lines = [l.strip() for l in lines if len(l.strip()) != 0]
+            if len(lines) == 0:
+                abort(f"Required file {fn} empty", 404)
+        

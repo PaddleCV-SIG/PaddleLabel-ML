@@ -50,11 +50,11 @@ class PdxMobilenetv2(BaseModel):
         return res[0]["category"]
 
     def train(self, data_dir):
+        self.pretrain_check(data_dir)
 
         train_transforms = T.Compose(
             [T.RandomCrop(crop_size=224), T.RandomHorizontalFlip(), T.Normalize()]
         )
-
         eval_transforms = T.Compose(
             [T.ResizeByShort(short_size=256), T.CenterCrop(crop_size=224), T.Normalize()]
         )
@@ -79,7 +79,7 @@ class PdxMobilenetv2(BaseModel):
 
         model = pdx.cls.MobileNetV2(num_classes=num_classes)
 
-        print("save path", self.param_path, osp.basename(self.param_path))
+        # print("save path", self.param_path, osp.basename(self.param_path))
         model.train(
             num_epochs=15,
             train_dataset=train_dataset,
