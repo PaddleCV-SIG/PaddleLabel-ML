@@ -31,5 +31,8 @@ vdlApp = vdlApp.create_app(ParseArgs(**args))
 
 application = DispatcherMiddleware(vdlApp, {"/model": connexion_app})
 
-if __name__ == "__main__": 
+def run():
     run_simple("0.0.0.0", 1234, application, use_reloader=True, threaded=True)
+
+if __name__ == "__main__": 
+    run()
