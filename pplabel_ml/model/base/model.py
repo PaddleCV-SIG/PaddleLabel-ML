@@ -12,6 +12,7 @@ from pplabel_ml.util import abort
 class BaseModel:
     name = "Base Model"
     def __init__(self, curr_path:str):
+        print("curr_path", curr_path)
         self.ckpt_path = osp.join(curr_path, "ckpt")
         
         os.makedirs(self.ckpt_path, exist_ok=True)

@@ -8,10 +8,8 @@ from pplabel_ml.util import abort
 global loaded_models
 loaded_models = {}
 
-
 def isRunning():
     return True
-
 
 def getAll():
     return [{"name": n} for n in models.keys()]
@@ -19,7 +17,7 @@ def getAll():
 
 def train(model_name):
     # print("train", model_name)
-    model = load(model_name)
+    model = load(model_name, reload=True)
     if model.training:
         abort(
             f"Model {model_name} is in training. Can't train this model till current train finishes.",
@@ -47,7 +45,7 @@ def predict(model_name):
     return {"result": load(model_name).predict(request.json)}
 
 
-def load(model_name):
+def load(model_name, reload=False):
     if model_name not in models.keys():
         abort(f"Model {model_name} not found", 404)
     if model_name not in loaded_models.keys():
@@ -61,3 +59,5 @@ def unload(model_name):
         abort(f"Model {model_name} not found", 404)
     if model_name in loaded_models.keys():
         del loaded_models[model_name]
+
+

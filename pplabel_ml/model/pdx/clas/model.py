@@ -24,20 +24,18 @@ class PdxMobilenetv2(BaseModel):
             param_path (str, optional): The "best model" path, will load model from this path for inference. Defaults to osp.join(curr_path, "ckpt", "best_model").
         """
         super().__init__(curr_path=curr_path)
+
         self.param_path = param_path
         if osp.exists(param_path):
             self.model = pdx.load_model(param_path)
         else:
             self.model = None
-
+        
         self.pretrain_weights_url = "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/MobileNetV2_pretrained.pdparams"
         self.pretrain_weights_path = osp.join(
             self.ckpt_path, "pretrain", "MobileNetV2_pretrained.pdparams"
         )
-        if not osp.exists(self.pretrain_weights_path):
-            paddlex.utils.download.download(
-                self.pretrain_weights_url, osp.dirname(self.pretrain_weights_path)
-            )
+        
         self.training = False
 
         print("output_path", self.output_path)
@@ -47,9 +45,16 @@ class PdxMobilenetv2(BaseModel):
         if self.model is None:
             abort("Model is not loaded.")
         res = self.model.predict(img)
+        print("Prediction", res)
         return res[0]["category"]
 
     def train(self, data_dir):
+        #  download pretrained weights
+        if not osp.exists(self.pretrain_weights_path):
+            paddlex.utils.download.download(
+                self.pretrain_weights_url, osp.dirname(self.pretrain_weights_path)
+            )
+        # ensure required files exist and content valid
         self.pretrain_check(data_dir)
 
         train_transforms = T.Compose(
@@ -76,14 +81,15 @@ class PdxMobilenetv2(BaseModel):
         )
 
         num_classes = len(train_dataset.labels)
+        print(f"Training samples: {len(train_dataset)}, classes {len(train_dataset.labels)}")
 
         model = pdx.cls.MobileNetV2(num_classes=num_classes)
 
         # print("save path", self.param_path, osp.basename(self.param_path))
         model.train(
-            num_epochs=15,
+            num_epochs=2,
             train_dataset=train_dataset,
-            train_batch_size=8,  # 200m/sample
+            train_batch_size=1,  # 200m/sample
             eval_dataset=eval_dataset,
             lr_decay_epochs=[4, 6, 8],
             save_interval_epochs=1,
