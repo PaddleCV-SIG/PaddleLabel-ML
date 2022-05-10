@@ -109,6 +109,12 @@ paths:
                   type: string
                 create_label:
                   type: boolean
+                other:
+                  type: object
+                  properties:
+                    clicks:
+                      type: array
+                      items: {}
               required:
                 - img
                 - format

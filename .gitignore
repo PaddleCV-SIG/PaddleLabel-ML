@@ -1,7 +1,11 @@
 # Project Specific
 data/
-eiseg/
 ckpt/
+*.pdiparams
+*.pdiparams.info
+*.pdmodel
+*.png
+*.jpg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

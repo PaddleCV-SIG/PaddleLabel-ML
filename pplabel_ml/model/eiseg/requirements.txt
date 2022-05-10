@@ -1,0 +1,16 @@
+scipy
+numpy
+Cython
+scikit-image
+opencv-python-headless
+Pillow
+matplotlib
+imgaug>=0.4
+albumentations>0.5
+graphviz
+tqdm
+pyyaml
+easydict
+future
+cffi
+ninja
