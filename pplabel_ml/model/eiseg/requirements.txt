@@ -14,3 +14,4 @@ easydict
 future
 cffi
 ninja
+paddleseg

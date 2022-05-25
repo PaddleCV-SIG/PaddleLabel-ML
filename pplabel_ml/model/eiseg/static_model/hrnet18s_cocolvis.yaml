@@ -1,3 +1,0 @@
-Deploy:
-  model: hrnet18s_cocolvis_model.pdmodel
-  params: hrnet18s_cocolvis_model.pdiparams

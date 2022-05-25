@@ -123,10 +123,10 @@ paths:
         '200':
           description: Result
   '/{model_name}/load':
-    get:
+    post:
       parameters:
         - $ref: '#/components/parameters/model_name'
-      summary: Load a model into memory. Reduce predict latency
+      summary: Only loaded models can be used.
       tags:
         - model
       x-openapi-router-controller: pplabel_ml.api

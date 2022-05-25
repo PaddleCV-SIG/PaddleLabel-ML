@@ -14,18 +14,18 @@ class BaseModel:
     def __init__(self, curr_path:str):
         print("curr_path", curr_path)
         self.ckpt_path = osp.join(curr_path, "ckpt")
-        
+
         os.makedirs(self.ckpt_path, exist_ok=True)
         os.makedirs(osp.join(self.ckpt_path, "run"), exist_ok=True)
-        
+
         runs = os.listdir(osp.join(self.ckpt_path, "run"))
         runs = [int(n) for n in runs]
         if len(runs) == 0:
             self.output_path= osp.join(self.ckpt_path, "run", "1")
         else:
             self.output_path=osp.join(self.ckpt_path, "run", str(max(runs) + 1))
+
     def get_image(self, req):
-        
         if req['format'] == 'b64':
             return self.decodeb64(req["img"])
         
@@ -39,7 +39,7 @@ class BaseModel:
         img = Image.open(io.BytesIO(img))
         img = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2RGB)
         return img
-    
+
     def pretrain_check(self, data_dir, requirements={"multiple label":False, "files":['labels.txt', "train_list.txt", "val_list.txt"]}):
 
         for fn in requirements['files']:

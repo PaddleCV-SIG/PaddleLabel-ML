@@ -3,6 +3,7 @@ import os.path as osp
 from pplabel_ml.model import BaseModel, add_model
 from pplabel_ml.util import abort
 import cv2
+
 # from pplabel_ml.model.util import copycontent
 
 curr_path = osp.abspath(osp.dirname(__file__))
@@ -14,15 +15,13 @@ from .inference.clicker import Clicker, Click
 from .inference.predictor import get_predictor
 import paddle.inference as paddle_infer
 
-# from models.is_hrnet_model import HRNetModel
-
 
 class Predictor:
-    def __init__(self):
-        config = paddle_infer.Config(
-            "static_hrnet18s_cocolvis_model.pdmodel",
-            "static_hrnet18s_cocolvis_model.pdiparams",
-        )
+    def __init__(self, model_path: str, param_path: str):
+        model_path = osp.abspath(model_path)
+        param_path = osp.abspath(param_path)
+
+        config = paddle_infer.Config(model_path, param_path)
 
         config.enable_mkldnn()
         config.enable_mkldnn_bfloat16()
@@ -45,7 +44,6 @@ class Predictor:
         self,
         image: np.array,
         clicker_list: List,
-        pred_thr: float = 0.49,
         pred_mask: np.array = None,
     ):
         clicker = Clicker()
@@ -57,24 +55,34 @@ class Predictor:
             click = Click(is_positive=click_indx[2], coords=(click_indx[1], click_indx[0]))
             clicker.add_click(click)
         pred_probs = self.predictor.get_prediction(clicker, pred_mask)
-        output = pred_probs > pred_thr
 
-        return output, pred_probs
+        return pred_probs
 
 
 @add_model
-class EiSeg(BaseModel):
-    name = "EiSeg"
+class EISeg(BaseModel):
+    name = "EISeg"
 
-    def __init__(self, param_path=osp.join(curr_path, "ckpt", "best_model")):
+    def __init__(self, model_path: str = None, param_path: str = None):
         """
         init model
 
         Args:
-            param_path (str, optional): The "best model" path, will load model from this path for inference. Defaults to osp.join(curr_path, "ckpt", "best_model").
+            model_path (str, optioanl):
+            param_path (str, optional):
         """
         super().__init__(curr_path=curr_path)
-        self.model = Predictor()
+        if model_path is None:
+            model_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdmodel")
+        else:
+            if not osp.exists(model_path):
+                abort(f"No model file found at path {model_path}")
+        if param_path is None:
+            param_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdiparams")
+        else:
+            if not osp.exists(param_path):
+                abort(f"No parameter file found at path {param_path}")
+        self.model = Predictor(model_path, param_path)
 
     def predict(self, req):
         print("req", req["other"]["clicks"], type(req["other"]["clicks"]))
@@ -82,7 +90,6 @@ class EiSeg(BaseModel):
         img = self.get_image(req)
         if self.model is None:
             abort("Model is not loaded.")
-        output, pred = self.model.run(img, clicks)
-        cv2.imwrite("output.png", output*255)
+        pred = self.model.run(img, clicks)
 
-        return output
+        return pred.tolist()
