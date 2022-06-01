@@ -55,7 +55,7 @@ class Predictor:
             click = Click(is_positive=click_indx[2], coords=(click_indx[1], click_indx[0]))
             clicker.add_click(click)
         pred_probs = self.predictor.get_prediction(clicker, pred_mask)
-
+        
         return pred_probs
 
 

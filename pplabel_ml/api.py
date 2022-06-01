@@ -17,13 +17,11 @@ def getAll():
     return [{"name": n} for n in models.keys()]
 
 
-
-    
 def train(model_name):
     # print("train", model_name)
     load(model_name, reload=True)
     model = loaded_models[model_name]
-    
+
     if model.training:
         abort(
             f"Model {model_name} is in training. Can't train this model till current train finishes.",
@@ -60,6 +58,7 @@ def load(model_name, reload=False):
         loaded_models[model_name] = models[model_name](**params)
     loaded_models[model_name].load_time = time.time()
     return f"Model {model_name} loaded", 200
+
 
 def unload(model_name):
     if model_name not in models.keys():
