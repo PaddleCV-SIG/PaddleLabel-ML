@@ -51,7 +51,7 @@ def predict(model_name):
 
 
 def load(model_name, reload=False):
-    params = request.json
+    params = request.json.get("init_params", {})
     if model_name not in models.keys():
         abort(f"No model named {model_name}", 404)
     if model_name not in loaded_models.keys():
@@ -65,3 +65,5 @@ def unload(model_name):
         abort(f"No model named {model_name}", 404)
     if model_name in loaded_models.keys():
         del loaded_models[model_name]
+        return f"Model {model_name} unloaded!"
+    return f"Model {model_name} is not loaded!"
