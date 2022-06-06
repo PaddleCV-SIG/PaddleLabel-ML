@@ -121,7 +121,12 @@ paths:
       description: Predict
       responses:
         '200':
-          description: Result
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
   '/{model_name}/load':
     post:
       parameters:
@@ -135,6 +140,14 @@ paths:
       responses:
         '200':
           description: Result
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                init_params:
+                  type: object
   '/{model_name}/unload':
     get:
       parameters:
