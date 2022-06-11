@@ -91,7 +91,19 @@ class EISeg(BaseModel):
         if self.model is None:
             abort("Model is not loaded.")
         pred = self.model.run(img, clicks)
-        pred = np.around(pred, 2)
+        # pred = np.around(pred, 2)
+        pred= pred.round(2)
+        # print(pred.shape)
+        pred_list = [["" for _ in range(pred.shape[1])] for _ in range(pred.shape[0])]
+        
+        # print(len(pred_list), len(pred_list[0]))
+        
+        for idx in range(pred.shape[0]):
+            for idy in range(pred.shape[1]):
+                pred_list[idx][idy] = "{:.2f}".format(pred[idx][idy])
+        
         # print(pred)
+        # print("=====")
+        # print(pred_list)
 
-        return pred.tolist()
+        return pred_list
