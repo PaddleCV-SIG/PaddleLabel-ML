@@ -91,5 +91,7 @@ class EISeg(BaseModel):
         if self.model is None:
             abort("Model is not loaded.")
         pred = self.model.run(img, clicks)
+        pred = np.around(pred, 2)
+        # print(pred)
 
         return pred.tolist()

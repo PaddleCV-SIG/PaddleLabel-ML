@@ -4,3 +4,6 @@ numpy
 flask
 connexion[swagger-ui]
 tqdm
+
+# clas
+paddlex
