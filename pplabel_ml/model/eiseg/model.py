@@ -52,10 +52,12 @@ class Predictor:
             pred_mask = paddle.to_tensor(pred_mask[np.newaxis, np.newaxis, :, :])
 
         for click_indx in clicker_list:
-            click = Click(is_positive=click_indx[2], coords=(click_indx[1], click_indx[0]))
+            click = Click(
+                is_positive=click_indx[2], coords=(click_indx[1], click_indx[0])
+            )
             clicker.add_click(click)
         pred_probs = self.predictor.get_prediction(clicker, pred_mask)
-        
+
         return pred_probs
 
 
@@ -73,12 +75,16 @@ class EISeg(BaseModel):
         """
         super().__init__(curr_path=curr_path)
         if model_path is None:
-            model_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdmodel")
+            model_path = osp.join(
+                curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdmodel"
+            )
         else:
             if not osp.exists(model_path):
                 abort(f"No model file found at path {model_path}")
         if param_path is None:
-            param_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdiparams")
+            param_path = osp.join(
+                curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdiparams"
+            )
         else:
             if not osp.exists(param_path):
                 abort(f"No parameter file found at path {param_path}")
@@ -91,19 +97,8 @@ class EISeg(BaseModel):
         if self.model is None:
             abort("Model is not loaded.")
         pred = self.model.run(img, clicks)
-        # pred = np.around(pred, 2)
-        pred= pred.round(2)
-        # print(pred.shape)
-        pred_list = [["" for _ in range(pred.shape[1])] for _ in range(pred.shape[0])]
-        
-        # print(len(pred_list), len(pred_list[0]))
-        
-        for idx in range(pred.shape[0]):
-            for idy in range(pred.shape[1]):
-                pred_list[idx][idy] = "{:.2f}".format(pred[idx][idy])
-        
-        # print(pred)
-        # print("=====")
-        # print(pred_list)
 
-        return pred_list
+        pred = pred.tolist()
+        pred = [[round(n, 2) for n in line] for line in pred]
+
+        return pred
