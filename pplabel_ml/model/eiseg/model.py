@@ -15,6 +15,7 @@ from .inference.clicker import Clicker, Click
 from .inference.predictor import get_predictor
 import paddle.inference as paddle_infer
 
+import matplotlib.pyplot as plt
 
 class Predictor:
     def __init__(self, model_path: str, param_path: str):
@@ -94,6 +95,10 @@ class EISeg(BaseModel):
         print("req", req["other"]["clicks"], type(req["other"]["clicks"]))
         clicks = req["other"]["clicks"]
         img = self.get_image(req)
+        
+        plt.imshow(img)
+        plt.show()
+        
         if self.model is None:
             abort("Model is not loaded.")
         pred = self.model.run(img, clicks)
