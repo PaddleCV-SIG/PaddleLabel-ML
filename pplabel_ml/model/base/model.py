@@ -15,6 +15,7 @@ class BaseModel:
     name = "Base Model"
     def __init__(self, curr_path:str):
         print("curr_path", curr_path)
+        self.params = None
         self.ckpt_path = osp.join(curr_path, "ckpt")
 
         os.makedirs(self.ckpt_path, exist_ok=True)
@@ -41,6 +42,7 @@ class BaseModel:
         img = Image.open(io.BytesIO(img))
         img = img.convert('RGB')
         img = np.asarray(img)
+        print("Image shape:", img.shape)
 
         # plt.imshow(img)
         # plt.savefig('/pwd/test.png')
