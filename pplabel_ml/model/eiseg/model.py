@@ -22,6 +22,7 @@ class Predictor:
         model_path = osp.abspath(model_path)
         param_path = osp.abspath(param_path)
 
+        paddle.disable_static()
         config = paddle_infer.Config(model_path, param_path)
 
         config.enable_mkldnn()
@@ -97,7 +98,7 @@ class EISeg(BaseModel):
         img = self.get_image(req)
         
         plt.imshow(img)
-        plt.show()
+        plt.savefig("/pwd/test.png")
         
         if self.model is None:
             abort("Model is not loaded.")

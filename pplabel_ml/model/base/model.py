@@ -9,6 +9,8 @@ import numpy as np
 
 from pplabel_ml.util import abort
 
+import matplotlib.pyplot as plt
+
 class BaseModel:
     name = "Base Model"
     def __init__(self, curr_path:str):
@@ -37,7 +39,12 @@ class BaseModel:
         img = img_b64.encode("ascii")
         img = base64.b64decode(img)
         img = Image.open(io.BytesIO(img))
-        img = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2RGB)
+        img = img.convert('RGB')
+        img = np.asarray(img)
+
+        # plt.imshow(img)
+        # plt.savefig('/pwd/test.png')
+        
         return img
 
     def pretrain_check(self, data_dir, requirements={"multiple label":False, "files":['labels.txt', "train_list.txt", "val_list.txt"]}):
