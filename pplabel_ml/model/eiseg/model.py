@@ -16,7 +16,7 @@ from .inference.clicker import Clicker, Click
 from .inference.predictor import get_predictor
 import paddle.inference as paddle_infer
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 class Predictor:
@@ -62,9 +62,19 @@ class Predictor:
 
         tic = time.time()
         pred_probs = self.predictor.get_prediction(clicker, pred_mask)
-        print(f"Inference on paddle took {time.time() - tic} s")
+        print(f"======== Inference on paddle took {time.time() - tic} s")
 
         return pred_probs
+
+
+# model_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdmodel")
+# param_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdiparams")
+
+# img = np.ones((1024, 768, 3), dtype="uint8")
+# p = Predictor(model_path, param_path)
+# res = p.run(img, [[420, 127, True]])
+# res = p.run(img, [[420, 127, True], [100, 200, False]])
+# res = p.run(img, [[420, 127, True], [100, 200, False], [300, 400, False]])
 
 
 @add_model
@@ -98,8 +108,8 @@ class EISeg(BaseModel):
         print("clicks", clicks)
         img = self.get_image(req)
 
-        plt.imshow(img)
-        plt.savefig("/pwd/test.png")
+        # plt.imshow(img)
+        # plt.savefig("/pwd/test.png")
 
         if self.model is None:
             abort("Model is not loaded.")
