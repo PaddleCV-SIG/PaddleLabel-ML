@@ -108,12 +108,10 @@ class EISeg(BaseModel):
         print("clicks", clicks)
         img = self.get_image(req)
 
-        # plt.imshow(img)
-        # plt.savefig("/pwd/test.png")
-
         if self.model is None:
             abort("Model is not loaded.")
         pred = self.model.run(img, clicks)
+        # pred_probs = np.swapaxes(pred_probs, 0, 1)
 
         pred = pred.tolist()
         pred = [[round(n, 2) for n in line] for line in pred]
