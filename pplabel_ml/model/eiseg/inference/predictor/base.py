@@ -1,9 +1,8 @@
+import numpy as np
 import paddle
 import paddle.nn.functional as F
-import numpy as np
 from inference.transforms import AddHorizontalFlip, SigmoidForPred, LimitLongestSide
-from models.ops import DistMaps, ScaleLayer, BatchImageNormalize
-
+from .ops import DistMaps, ScaleLayer, BatchImageNormalize
 
 
 class BasePredictor(object):
@@ -31,10 +30,6 @@ class BasePredictor(object):
         # else:
         #     self.net = model
 
-
-
-
-
         self.normalization = BatchImageNormalize([.485, .456, .406], [.229, .224, .225])
 
         self.transforms = [zoom_in] if zoom_in is not None else []
@@ -46,12 +41,11 @@ class BasePredictor(object):
         self.dist_maps = DistMaps(norm_radius=5, spatial_scale=1.0,
                                   cpu_mode=False, use_disks=True)
 
-
     def to_tensor(self, x):
         if isinstance(x, np.ndarray):
             if x.ndim == 2:
-                x = x[:,:,None]
-        img = paddle.to_tensor(x.transpose([2,0,1])).astype('float32') / 255
+                x = x[:, :, None]
+        img = paddle.to_tensor(x.transpose([2, 0, 1])).astype('float32') / 255
         return img
 
     def set_input_image(self, image):
@@ -88,7 +82,6 @@ class BasePredictor(object):
         prediction = F.interpolate(pred_logits, mode='bilinear', align_corners=True,
                                    size=image_nd.shape[2:])
         for t in reversed(self.transforms):
-
             prediction = t.inv_transform(prediction)
 
         if self.zoom_in is not None and self.zoom_in.check_possible_recalculation():
@@ -175,6 +168,7 @@ class BasePredictor(object):
     def set_states(self, states):
         self._set_transform_states(states['transform_states'])
         self.prev_prediction = states['prev_prediction']
+
 
 def split_points_by_order(tpoints, groups):
     points = tpoints.numpy()
