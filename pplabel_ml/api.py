@@ -40,7 +40,7 @@ def eval(model_name):
     pass
 
 
-def getProgress(model_name):
+def getProgresss(model_name):
     pass
 
 
@@ -56,6 +56,7 @@ def predict(model_name):
 def load(model_name, reload=False):
     tic = time.time()
     params = request.json.get("init_params", {})
+    # print(models)
     if model_name not in models.keys():
         abort(f"No model named {model_name}", 404)
 
