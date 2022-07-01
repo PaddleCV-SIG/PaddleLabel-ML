@@ -3,7 +3,7 @@ import math
 import paddle
 import numpy as np
 
-from inference.clicker import Click
+from ..clicker import Click
 from .base import BaseTransform
 
 

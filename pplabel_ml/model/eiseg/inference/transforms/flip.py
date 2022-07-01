@@ -1,6 +1,6 @@
 import paddle
 
-from inference.clicker import Click
+from ..clicker import Click
 from .base import BaseTransform
 
 

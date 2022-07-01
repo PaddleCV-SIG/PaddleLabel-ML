@@ -6,7 +6,7 @@ import numpy as np
 
 class DistMaps(nn.Layer):
     def __init__(self, norm_radius, spatial_scale=1.0, cpu_mode=True, use_disks=False):
-        super(DistMaps, self).__init__()
+        super().__init__()
         self.spatial_scale = spatial_scale
         self.norm_radius = norm_radius
         self.cpu_mode = cpu_mode

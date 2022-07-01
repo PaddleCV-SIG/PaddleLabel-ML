@@ -1,7 +1,7 @@
 import numpy as np
 import paddle
 import paddle.nn.functional as F
-from inference.transforms import AddHorizontalFlip, SigmoidForPred, LimitLongestSide
+from ..transforms import AddHorizontalFlip, SigmoidForPred, LimitLongestSide
 from .ops import DistMaps, ScaleLayer, BatchImageNormalize
 
 

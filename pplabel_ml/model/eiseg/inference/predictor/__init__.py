@@ -1,4 +1,4 @@
-from inference.transforms import ZoomIn
+from ..transforms import ZoomIn
 
 from .base import BasePredictor
 
