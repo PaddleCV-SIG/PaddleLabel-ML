@@ -92,6 +92,7 @@ class EISeg(BaseModel):
         super().__init__(curr_path=curr_path)
         if model_path is None:
             model_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdmodel")
+            model_path = osp.normpath(model_path)
         else:
             if not osp.exists(model_path):
                 abort(f"No model file found at path {model_path}")
