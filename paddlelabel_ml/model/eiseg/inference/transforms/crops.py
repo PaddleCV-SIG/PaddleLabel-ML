@@ -32,11 +32,11 @@ class Crops(BaseTransform):
         image_crops = []
         for dy in self.y_offsets:
             for dx in self.x_offsets:
-                self._counts[dy:dy + self.crop_height, dx:dx + self.crop_width] += 1
-                image_crop = image_nd[:, :, dy:dy + self.crop_height, dx:dx + self.crop_width]
+                self._counts[dy : dy + self.crop_height, dx : dx + self.crop_width] += 1
+                image_crop = image_nd[:, :, dy : dy + self.crop_height, dx : dx + self.crop_width]
                 image_crops.append(image_crop)
         image_crops = paddle.concat(image_crops, axis=0)
-        self._counts = paddle.to_tensor(self._counts, dtype='float32')
+        self._counts = paddle.to_tensor(self._counts, dtype="float32")
 
         clicks_list = clicks_lists[0]
         clicks_lists = []
@@ -56,7 +56,7 @@ class Crops(BaseTransform):
         crop_indx = 0
         for dy in self.y_offsets:
             for dx in self.x_offsets:
-                new_prob_map[0, 0, dy:dy + self.crop_height, dx:dx + self.crop_width] += prob_map[crop_indx, 0]
+                new_prob_map[0, 0, dy : dy + self.crop_height, dx : dx + self.crop_width] += prob_map[crop_indx, 0]
                 crop_indx += 1
         new_prob_map = paddle.divide(new_prob_map, self._counts)
 

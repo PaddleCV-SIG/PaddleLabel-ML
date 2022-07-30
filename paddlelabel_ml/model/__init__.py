@@ -5,8 +5,10 @@ from . import util
 
 models = {}
 
+
 def add_model(model):
     models[model.name] = model
+
 
 # load all models
 for loader, module_name, is_pkg in pkgutil.walk_packages(__path__):

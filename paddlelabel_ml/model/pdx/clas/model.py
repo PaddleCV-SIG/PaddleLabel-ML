@@ -30,12 +30,12 @@ class PdxMobilenetv2(BaseModel):
             self.model = pdx.load_model(param_path)
         else:
             self.model = None
-        
-        self.pretrain_weights_url = "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/MobileNetV2_pretrained.pdparams"
-        self.pretrain_weights_path = osp.join(
-            self.ckpt_path, "pretrain", "MobileNetV2_pretrained.pdparams"
+
+        self.pretrain_weights_url = (
+            "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/MobileNetV2_pretrained.pdparams"
         )
-        
+        self.pretrain_weights_path = osp.join(self.ckpt_path, "pretrain", "MobileNetV2_pretrained.pdparams")
+
         self.training = False
 
         print("output_path", self.output_path)
@@ -51,18 +51,12 @@ class PdxMobilenetv2(BaseModel):
     def train(self, data_dir):
         #  download pretrained weights
         if not osp.exists(self.pretrain_weights_path):
-            paddlex.utils.download.download(
-                self.pretrain_weights_url, osp.dirname(self.pretrain_weights_path)
-            )
+            paddlex.utils.download.download(self.pretrain_weights_url, osp.dirname(self.pretrain_weights_path))
         # ensure required files exist and content valid
         self.pretrain_check(data_dir)
 
-        train_transforms = T.Compose(
-            [T.RandomCrop(crop_size=224), T.RandomHorizontalFlip(), T.Normalize()]
-        )
-        eval_transforms = T.Compose(
-            [T.ResizeByShort(short_size=256), T.CenterCrop(crop_size=224), T.Normalize()]
-        )
+        train_transforms = T.Compose([T.RandomCrop(crop_size=224), T.RandomHorizontalFlip(), T.Normalize()])
+        eval_transforms = T.Compose([T.ResizeByShort(short_size=256), T.CenterCrop(crop_size=224), T.Normalize()])
 
         train_dataset = pdx.datasets.ImageNet(
             data_dir=data_dir,

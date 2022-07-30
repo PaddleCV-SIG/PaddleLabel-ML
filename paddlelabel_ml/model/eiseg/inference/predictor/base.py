@@ -6,13 +6,9 @@ from .ops import DistMaps, ScaleLayer, BatchImageNormalize
 
 
 class BasePredictor(object):
-    def __init__(self, model,
-                 net_clicks_limit=None,
-                 with_flip=False,
-                 zoom_in=None,
-                 max_size=None,
-                 with_mask=True,
-                 **kwargs):
+    def __init__(
+        self, model, net_clicks_limit=None, with_flip=False, zoom_in=None, max_size=None, with_mask=True, **kwargs
+    ):
 
         self.with_flip = with_flip
         self.net_clicks_limit = net_clicks_limit
@@ -30,7 +26,7 @@ class BasePredictor(object):
         # else:
         #     self.net = model
 
-        self.normalization = BatchImageNormalize([.485, .456, .406], [.229, .224, .225])
+        self.normalization = BatchImageNormalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 
         self.transforms = [zoom_in] if zoom_in is not None else []
         if max_size is not None:
@@ -38,14 +34,13 @@ class BasePredictor(object):
         self.transforms.append(SigmoidForPred())
         if with_flip:
             self.transforms.append(AddHorizontalFlip())
-        self.dist_maps = DistMaps(norm_radius=5, spatial_scale=1.0,
-                                  cpu_mode=False, use_disks=True)
+        self.dist_maps = DistMaps(norm_radius=5, spatial_scale=1.0, cpu_mode=False, use_disks=True)
 
     def to_tensor(self, x):
         if isinstance(x, np.ndarray):
             if x.ndim == 2:
                 x = x[:, :, None]
-        img = paddle.to_tensor(x.transpose([2, 0, 1])).astype('float32') / 255
+        img = paddle.to_tensor(x.transpose([2, 0, 1])).astype("float32") / 255
         return img
 
     def set_input_image(self, image):
@@ -73,14 +68,11 @@ class BasePredictor(object):
 
         input_image = paddle.concat([input_image, prev_mask], axis=1)
 
-        image_nd, clicks_lists, is_image_changed = self.apply_transforms(
-            input_image, [clicks_list]
-        )
+        image_nd, clicks_lists, is_image_changed = self.apply_transforms(input_image, [clicks_list])
         pred_logits = self._get_prediction(image_nd, clicks_lists, is_image_changed)
         pred_logits = paddle.to_tensor(pred_logits)
 
-        prediction = F.interpolate(pred_logits, mode='bilinear', align_corners=True,
-                                   size=image_nd.shape[2:])
+        prediction = F.interpolate(pred_logits, mode="bilinear", align_corners=True, size=image_nd.shape[2:])
         for t in reversed(self.transforms):
             prediction = t.inv_transform(prediction)
 
@@ -115,8 +107,8 @@ class BasePredictor(object):
 
         image, prev_mask = self.prepare_input(image_nd)
         coord_features = self.get_coord_features(image, prev_mask, points_nd)
-        image = image.numpy().astype('float32')
-        coord_features = coord_features.numpy().astype('float32')
+        image = image.numpy().astype("float32")
+        coord_features = coord_features.numpy().astype("float32")
         self.input_handle_1.copy_from_cpu(image)
         self.input_handle_2.copy_from_cpu(coord_features)
         self.net.run()
@@ -151,7 +143,7 @@ class BasePredictor(object):
         num_max_points = max(1, num_max_points)
 
         for clicks_list in clicks_lists:
-            clicks_list = clicks_list[:self.net_clicks_limit]
+            clicks_list = clicks_list[: self.net_clicks_limit]
             pos_clicks = [click.coords_and_indx for click in clicks_list if click.is_positive]
             pos_clicks = pos_clicks + (num_max_points - len(pos_clicks)) * [(-1, -1, -1)]
 
@@ -162,12 +154,11 @@ class BasePredictor(object):
         return paddle.to_tensor(total_clicks)
 
     def get_states(self):
-        return {'transform_states': self._get_transform_states(),
-                'prev_prediction': self.prev_prediction}
+        return {"transform_states": self._get_transform_states(), "prev_prediction": self.prev_prediction}
 
     def set_states(self, states):
-        self._set_transform_states(states['transform_states'])
-        self.prev_prediction = states['prev_prediction']
+        self._set_transform_states(states["transform_states"])
+        self.prev_prediction = states["prev_prediction"]
 
 
 def split_points_by_order(tpoints, groups):
@@ -177,8 +168,7 @@ def split_points_by_order(tpoints, groups):
     num_points = points.shape[1] // 2
 
     groups = [x if x > 0 else num_points for x in groups]
-    group_points = [np.full((bs, 2 * x, 3), -1, dtype=np.float32)
-                    for x in groups]
+    group_points = [np.full((bs, 2 * x, 3), -1, dtype=np.float32) for x in groups]
 
     last_point_indx_group = np.zeros((bs, num_groups, 2), dtype=np.int)
     for group_indx, group_size in enumerate(groups):
@@ -200,7 +190,6 @@ def split_points_by_order(tpoints, groups):
 
             group_points[group_id][bindx, new_point_indx, :] = point
 
-    group_points = [paddle.to_tensor(x, dtype=tpoints.dtype)
-                    for x in group_points]
+    group_points = [paddle.to_tensor(x, dtype=tpoints.dtype) for x in group_points]
 
     return group_points

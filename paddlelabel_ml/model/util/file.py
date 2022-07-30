@@ -23,11 +23,11 @@ def listdir(folder, filters={"exclude_prefix": ["."]}):
 
     Returns:
         list: File paths relative to folder, sorted
-    """    
+    """
 
     files = []
     for root, fdrs, fs in os.walk(folder):
-        if osp.basename(root).startswith("."): # skip all hidden folders
+        if osp.basename(root).startswith("."):  # skip all hidden folders
             continue
         for f in fs:
             files.append(osp.normpath(osp.join(root, f)))
@@ -82,15 +82,15 @@ def copycontent(src, dst):
         src (str): source folder
         dst (str): destination folder
     """
-    
+
     assert osp.abspath(src), f"src dir {src} isn't abspath"
-    assert osp.abspath(dst),  f"dst dir {dst} isn't abspath"
+    assert osp.abspath(dst), f"dst dir {dst} isn't abspath"
     assert src != dst, f"The source and destination folder are both {src}"
 
     print(src, dst)
-    
+
     for root, fdrs, fs in os.walk(src):
-        if osp.basename(root).startswith("."): # skip all hidden folders
+        if osp.basename(root).startswith("."):  # skip all hidden folders
             continue
         if not osp.exists(osp.join(dst, osp.relpath(root, src))):
             os.makedirs(osp.join(dst, osp.relpath(root, src)))

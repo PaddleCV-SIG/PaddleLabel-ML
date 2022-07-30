@@ -27,12 +27,8 @@ class Clicker(object):
         return self.clicks_list[:clicks_limit]
 
     def _get_next_click(self, pred_mask, padding=True):
-        fn_mask = np.logical_and(
-            np.logical_and(self.gt_mask, np.logical_not(pred_mask)), self.not_ignore_mask
-        )
-        fp_mask = np.logical_and(
-            np.logical_and(np.logical_not(self.gt_mask), pred_mask), self.not_ignore_mask
-        )
+        fn_mask = np.logical_and(np.logical_and(self.gt_mask, np.logical_not(pred_mask)), self.not_ignore_mask)
+        fp_mask = np.logical_and(np.logical_and(np.logical_not(self.gt_mask), pred_mask), self.not_ignore_mask)
 
         if padding:
             fn_mask = np.pad(fn_mask, ((1, 1), (1, 1)), "constant")

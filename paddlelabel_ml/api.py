@@ -16,8 +16,10 @@ def isRunning():
 def getAll():
     return [{"name": n} for n in models.keys()]
 
+
 def getProgress():
     pass
+
 
 def train(model_name):
     # print("train", model_name)
