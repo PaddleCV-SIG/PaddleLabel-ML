@@ -19,7 +19,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Model'
-      x-openapi-router-controller: pplabel_ml.api
+      x-openapi-router-controller: paddlelabel_ml.api
       operationId: getAll
       description: Get all models
   /running:
@@ -34,7 +34,7 @@ paths:
             application/json:
               schema:
                 type: string
-      x-openapi-router-controller: pplabel_ml.api
+      x-openapi-router-controller: paddlelabel_ml.api
       operationId: isRunning
       description: Detect ml backend running
   '/{model_name}/train':
@@ -44,7 +44,7 @@ paths:
       summary: Train a model
       tags:
         - model
-      x-openapi-router-controller: pplabel_ml.api
+      x-openapi-router-controller: paddlelabel_ml.api
       operationId: train
       requestBody:
         content:
@@ -69,7 +69,7 @@ paths:
       tags:
         - model
       summary: Get training progress
-      x-openapi-router-controller: pplabel_ml.api
+      x-openapi-router-controller: paddlelabel_ml.api
       operationId: getProgress
       description: Get training progress
       responses:
@@ -82,7 +82,7 @@ paths:
       tags:
         - model
       summary: Evaluate model performance
-      x-openapi-router-controller: pplabel_ml.api
+      x-openapi-router-controller: paddlelabel_ml.api
       operationId: eval
       description: Evaluate model performance
       responses:
@@ -95,7 +95,7 @@ paths:
       summary: Predict
       tags:
         - model
-      x-openapi-router-controller: pplabel_ml.api
+      x-openapi-router-controller: paddlelabel_ml.api
       operationId: predict
       requestBody:
         content:
@@ -134,7 +134,7 @@ paths:
       summary: Only loaded models can be used.
       tags:
         - model
-      x-openapi-router-controller: pplabel_ml.api
+      x-openapi-router-controller: paddlelabel_ml.api
       operationId: load
       description: Load model
       responses:
@@ -155,7 +155,7 @@ paths:
       summary: Unload a model to free up memory
       tags:
         - model
-      x-openapi-router-controller: pplabel_ml.api
+      x-openapi-router-controller: paddlelabel_ml.api
       operationId: unload
       description: Unload model
       responses:

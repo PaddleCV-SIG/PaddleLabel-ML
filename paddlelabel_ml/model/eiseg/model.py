@@ -1,11 +1,11 @@
 import os.path as osp
 import time
 
-from pplabel_ml.model import BaseModel, add_model
-from pplabel_ml.util import abort
+from paddlelabel_ml.model import BaseModel, add_model
+from paddlelabel_ml.util import abort
 import cv2
 
-# from pplabel_ml.model.util import copycontent
+# from paddlelabel_ml.model.util import copycontent
 
 curr_path = osp.abspath(osp.dirname(__file__))
 

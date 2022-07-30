@@ -6,7 +6,7 @@ from flask_cors import CORS
 basedir = osp.abspath(osp.dirname(__file__))
 # workspace_dir = "/home/lin/Desktop/data/pplabel-ml/"
 
-connexion_app = connexion.App("pplabel_ml")
+connexion_app = connexion.App("paddlelabel_ml")
 
 connexion_app.add_api(
     "openapi.yml",

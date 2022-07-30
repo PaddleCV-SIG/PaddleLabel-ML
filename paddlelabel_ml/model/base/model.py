@@ -7,7 +7,7 @@ from PIL import Image
 import cv2
 import numpy as np
 
-from pplabel_ml.util import abort
+from paddlelabel_ml.util import abort
 
 import matplotlib.pyplot as plt
 

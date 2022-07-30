@@ -2,8 +2,8 @@ import time
 
 from connexion import request
 
-from pplabel_ml.model import models
-from pplabel_ml.util import abort
+from paddlelabel_ml.model import models
+from paddlelabel_ml.util import abort
 
 global loaded_models
 loaded_models = {}

@@ -1,6 +1,6 @@
 import pathlib
 
-import pplabel_ml.model
+import paddlelabel_ml.model
 
 HERE = pathlib.Path(__file__).parent
 

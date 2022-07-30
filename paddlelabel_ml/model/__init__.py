@@ -1,6 +1,6 @@
 import pkgutil
 
-from pplabel_ml.model.base.model import BaseModel
+from paddlelabel_ml.model.base.model import BaseModel
 from . import util
 
 models = {}

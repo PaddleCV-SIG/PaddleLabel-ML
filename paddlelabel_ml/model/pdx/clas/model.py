@@ -5,9 +5,9 @@ import paddlex as pdx
 from paddlex import transforms as T
 import paddlex
 
-from pplabel_ml.model import BaseModel, add_model
-from pplabel_ml.util import abort
-from pplabel_ml.model.util import copycontent
+from paddlelabel_ml.model import BaseModel, add_model
+from paddlelabel_ml.util import abort
+from paddlelabel_ml.model.util import copycontent
 
 curr_path = osp.abspath(osp.dirname(__file__))
 
