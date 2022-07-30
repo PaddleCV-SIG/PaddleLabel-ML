@@ -1,8 +1,8 @@
 exclude test/
 exclude tool/
-include pplabel_ml/version
+include paddlelabel_ml/version
 include requirements.txt
-include pplabel_ml/openapi.yml
-include pplabel_ml/model/eiseg/ckpt/static_hrnet18_ocr64_cocolvis.*
-include pplabel_ml/model/eiseg/util/cython/_get_dist_maps.pyx
-include pplabel_ml/model/eiseg/util/cython/_get_dist_maps.pyxbld
+include paddlelabel_ml/openapi.yml
+include paddlelabel_ml/model/eiseg/ckpt/static_hrnet18_ocr64_cocolvis.*
+include paddlelabel_ml/model/eiseg/util/cython/_get_dist_maps.pyx
+include paddlelabel_ml/model/eiseg/util/cython/_get_dist_maps.pyxbld

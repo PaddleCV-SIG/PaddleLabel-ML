@@ -6,6 +6,6 @@ pip install --upgrade pip
 rm -rf dist/
 rm -rf build/
 python setup.py sdist bdist_wheel
-pip install --upgrade "dist/pplabel_ml-$(cat pplabel_ml/version).tar.gz"
+pip install --upgrade "dist/paddlelabel_ml-$(cat paddlelabel_ml/version).tar.gz"
 cd
-pplabel_ml
+paddlelabel_ml
