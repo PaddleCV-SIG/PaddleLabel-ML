@@ -26,7 +26,7 @@ paths:
     get:
       summary: Detect ml backend running
       tags:
-        - manage
+        - model
       responses:
         '200':
           description: ml backend running
@@ -35,7 +35,7 @@ paths:
               schema:
                 type: string
       x-openapi-router-controller: paddlelabel_ml.api
-      operationId: isRunning
+      operationId: isBackendUp
       description: Detect ml backend running
   '/{model_name}/train':
     post:
@@ -83,7 +83,7 @@ paths:
         - model
       summary: Evaluate model performance
       x-openapi-router-controller: paddlelabel_ml.api
-      operationId: eval
+      operationId: evaluate
       description: Evaluate model performance
       responses:
         '200':

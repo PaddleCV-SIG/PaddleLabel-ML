@@ -4,12 +4,15 @@ from connexion import request
 
 from paddlelabel_ml.model import models
 from paddlelabel_ml.util import abort
+from paddlelabel_ml.model.base.model import BaseModel
 
 global loaded_models
+global loading_models
 loaded_models = {}
+loading_models = set()
 
 
-def isRunning():
+def isBackendUp():
     return True
 
 
@@ -40,7 +43,7 @@ def train(model_name):
         model.training = False
 
 
-def eval(model_name):
+def evaluate(model_name):
     pass
 
 
@@ -52,6 +55,9 @@ def predict(model_name):
     tic = time.time()
     if model_name not in loaded_models.keys():
         abort(f"Model {model_name} not loaded, call load endpoint first!", 500)
+    if model_name in loading_models:
+        abort(f"Model {model_name} is still loading, check back after 1 or 2 minutes!", 500)
+
     res = {"result": loaded_models[model_name].predict(request.json)}
     print(f"Inference took {time.time() - tic} s")
     return res
@@ -60,15 +66,25 @@ def predict(model_name):
 def load(model_name, reload=False):
     tic = time.time()
     params = request.json.get("init_params", {})
-    # print(models)
+
+    # 1. backend has this model
     if model_name not in models.keys():
         abort(f"No model named {model_name}", 404)
 
-    if model_name not in loaded_models.keys() or (
-        model_name in loaded_models.keys() and loaded_models[model_name].params != params
-    ):
-        loaded_models[model_name] = models[model_name](**params)
+    # 2. model is loading or loaded
+    if model_name in loaded_models.keys():
+        # 2.1 loading
+        if model_name in loading_models:
+            abort(f"Model {model_name} is still loading, check back after 1 or 2 minutes!", 500)
+        # 2.2 loaded with same params
+        if loaded_models[model_name].params == params:
+            return f"Model {model_name} is already loaded", 200
+
+    # 3. load model
+    loading_models.add(model_name)
+    loaded_models[model_name] = models[model_name](**params)
     loaded_models[model_name].params = params
+    loading_models.remove(model_name)
 
     loaded_models[model_name].load_time = time.time()
     print(f"Load model {model_name} took {time.time() - tic} s")

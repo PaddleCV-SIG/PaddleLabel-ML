@@ -17,7 +17,7 @@ connexion_app.add_api(
 
 CORS(connexion_app.app)
 
-connexion_app.run(host="0.0.0.0", port=1234, debug=True)
+connexion_app.run(host="0.0.0.0", port=1234, debug=True, threaded=True)
 
 # from werkzeug.middleware.dispatcher import DispatcherMiddleware
 # from werkzeug.serving import run_simple

@@ -92,12 +92,14 @@ class EISeg(BaseModel):
         super().__init__(curr_path=curr_path)
         if model_path is None:
             model_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdmodel")
-            model_path = osp.normpath(model_path)
+            # model_path = osp.normpath(model_path)
+            print("======== model_path ========", model_path)
         else:
             if not osp.exists(model_path):
                 abort(f"No model file found at path {model_path}")
         if param_path is None:
             param_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdiparams")
+            print("======== param_path ========", param_path)
         else:
             if not osp.exists(param_path):
                 abort(f"No parameter file found at path {param_path}")
