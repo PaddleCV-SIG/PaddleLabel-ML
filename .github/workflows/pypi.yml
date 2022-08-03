@@ -20,7 +20,7 @@ jobs:
 
       - name: Get default weights
         run: |
-          wget https://zenodo.org/record/6955877/files/static_hrnet18_ocr64_cocolvis.zip -P ..
+          wget https://github.com/linhandev/static/releases/download/pdlabel/static_hrnet18_ocr64_cocolvis.zip -P ..
           unzip ../static_hrnet18_ocr64_cocolvis.zip -d ..
           mkdir -p paddlelabel_ml/model/eiseg/ckpt/
           mv ../static_hrnet18_ocr64_cocolvis/* paddlelabel_ml/model/eiseg/ckpt/
