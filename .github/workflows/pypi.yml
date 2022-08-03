@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - nane: Get default weights
+      - name: Get default weights
         run: |
           wget https://zenodo.org/record/6955877/files/static_hrnet18_ocr64_cocolvis.zip -P ..
           unzip ../static_hrnet18_ocr64_cocolvis.zip -d ..
