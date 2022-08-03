@@ -12,4 +12,6 @@ def add_model(model):
 
 # load all models
 for loader, module_name, is_pkg in pkgutil.walk_packages(__path__):
+    if "pdx" in module_name:
+        continue
     _ = loader.find_module(module_name).load_module(module_name)

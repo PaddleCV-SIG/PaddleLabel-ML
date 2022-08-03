@@ -8,4 +8,4 @@ filelock
 protobuf==3.20.1
 
 # clas
-paddlex
+# paddlex
