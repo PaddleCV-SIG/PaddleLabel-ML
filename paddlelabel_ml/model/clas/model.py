@@ -5,14 +5,12 @@ import paddlex as pdx
 from paddlex import transforms as T
 import paddlex
 
-from paddlelabel_ml.model import BaseModel, add_model
+from paddlelabel_ml.model import BaseModel
 from paddlelabel_ml.util import abort
-from paddlelabel_ml.model.util import copycontent
 
 curr_path = osp.abspath(osp.dirname(__file__))
 
 
-@add_model
 class PdxMobilenetv2(BaseModel):
     name = "Pdx Mobilenetv2 Classfication"
 
@@ -92,5 +90,5 @@ class PdxMobilenetv2(BaseModel):
             pretrain_weights=self.pretrain_weights_path,
             use_vdl=True,
         )
-        copycontent(osp.join(self.output_path, "best_model"), osp.join(self.ckpt_path, "best_model"))
+        # copycontent(osp.join(self.output_path, "best_model"), osp.join(self.ckpt_path, "best_model"))
         self.model = pdx.load_model(self.param_path)

@@ -1,15 +1,21 @@
 import time
+import importlib
 
 from connexion import request
 
-from paddlelabel_ml.model import models
-from paddlelabel_ml.util import abort
+from paddlelabel_ml.util import abort, get_models
 from paddlelabel_ml.model.base.model import BaseModel
 
+
+# TODO: switch to a thread safe approach
 global loaded_models
 global loading_models
 loaded_models = {}
 loading_models = set()
+
+models = get_models()
+
+print(models)
 
 
 def isBackendUp():
@@ -17,7 +23,10 @@ def isBackendUp():
 
 
 def getAll():
-    return [{"name": n} for n in models.keys()]
+    res = models.copy()
+    for name in res.keys():
+        del res[name]["path"]
+    return res
 
 
 def getProgress():
@@ -51,7 +60,7 @@ def getProgresss(model_name):
     pass
 
 
-def predict(model_name):
+async def predict(model_name):
     tic = time.time()
     if model_name not in loaded_models.keys():
         abort(f"Model {model_name} not loaded, call load endpoint first!", 500)
@@ -63,8 +72,10 @@ def predict(model_name):
     return res
 
 
-def load(model_name, reload=False):
+async def load(model_name, reload=False):
+    print(model_name, reload)
     tic = time.time()
+
     params = request.json.get("init_params", {})
 
     # 1. backend has this model
@@ -81,8 +92,9 @@ def load(model_name, reload=False):
             return f"Model {model_name} is already loaded", 200
 
     # 3. load model
+    model = importlib.import_module(models[model_name]["path"])
     loading_models.add(model_name)
-    loaded_models[model_name] = models[model_name](**params)
+    loaded_models[model_name] = model.Model(**params)
     loaded_models[model_name].params = params
     loading_models.remove(model_name)
 

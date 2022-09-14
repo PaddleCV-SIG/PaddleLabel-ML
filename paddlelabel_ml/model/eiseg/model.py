@@ -1,22 +1,18 @@
 import os.path as osp
 import time
 
-from paddlelabel_ml.model import BaseModel, add_model
-from paddlelabel_ml.util import abort
 import cv2
-
-# from paddlelabel_ml.model.util import copycontent
-
-curr_path = osp.abspath(osp.dirname(__file__))
-
-from typing import List
 import numpy as np
 import paddle
-from .inference.clicker import Clicker, Click
-from .inference.predictor import get_predictor
 import paddle.inference as paddle_infer
 
-# import matplotlib.pyplot as plt
+from paddlelabel_ml.model import BaseModel
+from paddlelabel_ml.util import abort
+from typing import List
+from .inference.clicker import Clicker, Click
+from .inference.predictor import get_predictor
+
+curr_path = osp.abspath(osp.dirname(__file__))
 
 
 class Predictor:
@@ -77,7 +73,6 @@ class Predictor:
 # res = p.run(img, [[420, 127, True], [100, 200, False], [300, 400, False]])
 
 
-@add_model
 class EISeg(BaseModel):
     name = "EISeg"
 

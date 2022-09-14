@@ -3,7 +3,7 @@ info:
   title: PP Label ML backend API
   version: 0.0.1
 servers:
-  - url: 'http://localhost:1234/'
+  - url: "http://localhost:1234/model/"
 paths:
   /:
     get:
@@ -11,14 +11,14 @@ paths:
       tags:
         - model
       responses:
-        '200':
+        "200":
           description: All models
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Model'
+                  $ref: "#/components/schemas/Model"
       x-openapi-router-controller: paddlelabel_ml.api
       operationId: getAll
       description: Get all models
@@ -28,7 +28,7 @@ paths:
       tags:
         - model
       responses:
-        '200':
+        "200":
           description: ml backend running
           content:
             application/json:
@@ -37,10 +37,10 @@ paths:
       x-openapi-router-controller: paddlelabel_ml.api
       operationId: isBackendUp
       description: Detect ml backend running
-  '/{model_name}/train':
+  "/{model_name}/train":
     post:
       parameters:
-        - $ref: '#/components/parameters/model_name'
+        - $ref: "#/components/parameters/model_name"
       summary: Train a model
       tags:
         - model
@@ -61,11 +61,11 @@ paths:
                 - configs
       description: Train a model
       responses:
-        '200':
+        "200":
           description: Train model
     get:
       parameters:
-        - $ref: '#/components/parameters/model_name'
+        - $ref: "#/components/parameters/model_name"
       tags:
         - model
       summary: Get training progress
@@ -73,12 +73,12 @@ paths:
       operationId: getProgress
       description: Get training progress
       responses:
-        '200':
+        "200":
           description: Get training progress
-  '/{model_name}/eval':
+  "/{model_name}/eval":
     post:
       parameters:
-        - $ref: '#/components/parameters/model_name'
+        - $ref: "#/components/parameters/model_name"
       tags:
         - model
       summary: Evaluate model performance
@@ -86,12 +86,12 @@ paths:
       operationId: evaluate
       description: Evaluate model performance
       responses:
-        '200':
+        "200":
           description: Evaluate model performance
-  '/{model_name}/predict':
+  "/{model_name}/predict":
     post:
       parameters:
-        - $ref: '#/components/parameters/model_name'
+        - $ref: "#/components/parameters/model_name"
       summary: Predict
       tags:
         - model
@@ -120,17 +120,17 @@ paths:
                 - format
       description: Predict
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties: {}
-  '/{model_name}/load':
+  "/{model_name}/load":
     post:
       parameters:
-        - $ref: '#/components/parameters/model_name'
+        - $ref: "#/components/parameters/model_name"
       summary: Only loaded models can be used.
       tags:
         - model
@@ -138,7 +138,7 @@ paths:
       operationId: load
       description: Load model
       responses:
-        '200':
+        "200":
           description: Result
       requestBody:
         content:
@@ -148,10 +148,10 @@ paths:
               properties:
                 init_params:
                   type: object
-  '/{model_name}/unload':
+  "/{model_name}/unload":
     get:
       parameters:
-        - $ref: '#/components/parameters/model_name'
+        - $ref: "#/components/parameters/model_name"
       summary: Unload a model to free up memory
       tags:
         - model
@@ -159,7 +159,7 @@ paths:
       operationId: unload
       description: Unload model
       responses:
-        '200':
+        "200":
           description: Result
 components:
   schemas:

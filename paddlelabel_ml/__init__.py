@@ -2,6 +2,5 @@ import pathlib
 
 import paddlelabel_ml.model
 
-HERE = pathlib.Path(__file__).parent
-
-version = open((HERE / "version"), "r").read().strip()
+project_base = pathlib.Path(__file__).parent
+version = open((project_base / "version"), "r").read().strip()

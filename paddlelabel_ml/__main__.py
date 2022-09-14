@@ -1,43 +1,48 @@
 import os.path as osp
 import argparse
+import importlib
 
 import connexion
 from flask_cors import CORS
 
-
-parser = argparse.ArgumentParser(description="PP Label")
-parser.add_argument(
-    "--lan",
-    default=False,
-    action="store_true",
-    help="Whether to expose the service to lan",
-)
-parser.add_argument(
-    "--port",
-    default=1234,
-    type=int,
-    help="The port to use",
-)
-args = parser.parse_args()
+from paddlelabel_ml.util import get_models
 
 
-basedir = osp.abspath(osp.dirname(__file__))
-# workspace_dir = "/home/lin/Desktop/data/pplabel-ml/"
+def run():
+    parser = argparse.ArgumentParser(description="PP Label")
+    parser.add_argument(
+        "--lan",
+        default=False,
+        action="store_true",
+        help="Whether to expose the service to lan",
+    )
+    parser.add_argument(
+        "--port",
+        default=1234,
+        type=int,
+        help="The port to use",
+    )
+    args = parser.parse_args()
 
-connexion_app = connexion.App("paddlelabel_ml")
+    connexion_app = connexion.App("paddlelabel_ml")
+    connexion_app.add_api(
+        importlib.resources.path("paddlelabel_ml", "openapi.yml"),
+        # request with undefined param returns error, dont enforce body
+        strict_validation=True,
+        pythonic_params=True,
+    )
 
-connexion_app.add_api(
-    "openapi.yml",
-    # request with undefined param returns error, dont enforce body
-    strict_validation=True,
-    pythonic_params=True,
-)
+    CORS(connexion_app.app)
 
-CORS(connexion_app.app)
+    host = "0.0.0.0" if args.lan else "127.0.0.1"
 
-host = "0.0.0.0" if args.lan else "127.0.0.1"
+    connexion_app.run(host=host, port=args.port, debug=True)
 
-connexion_app.run(host=host, port=args.port, debug=True, threaded=True)
+
+if __name__ == "__main__":
+    print(get_models())
+    run()
+
 
 # from werkzeug.middleware.dispatcher import DispatcherMiddleware
 # from werkzeug.serving import run_simple

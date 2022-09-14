@@ -9,7 +9,7 @@ import numpy as np
 
 from paddlelabel_ml.util import abort
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 class BaseModel:
