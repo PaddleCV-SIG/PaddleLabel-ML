@@ -1,4 +1,5 @@
 # Project Specific
+output/
 data/
 ckpt/
 *.pdiparams
