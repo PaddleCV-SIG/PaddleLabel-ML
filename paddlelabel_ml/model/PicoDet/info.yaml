@@ -1,2 +1,3 @@
 name: PicoDet
-type: Detection
+task_categories:
+  - detection

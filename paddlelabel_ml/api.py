@@ -1,5 +1,6 @@
 import time
 import importlib
+import copy
 
 from connexion import request
 
@@ -22,10 +23,10 @@ def isBackendUp():
 
 
 def getAll():
-    res = models.copy()
+    res = copy.deepcopy(models)
     for name in res.keys():
         del res[name]["path"]
-    return res
+    return [{"name": k, **v} for k, v in res.items()]
 
 
 def getProgress():

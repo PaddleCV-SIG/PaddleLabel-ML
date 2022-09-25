@@ -17,7 +17,7 @@ def get_models(model_fdr="model"):
         info = yaml.safe_load(open(HERE / Path(model_fdr) / Path(idx) / Path("info.yaml"), "r").read())
         models[info["name"]] = {
             "path": f"paddlelabel_ml.{model_fdr}.{idx}",
-            "type": info["type"],
+            "task_categories": info["task_categories"],
             "interactive": info.get("interactive", False),
         }
     return models

@@ -1,2 +1,3 @@
 name: PPLCNetV2
-type: Classification
+task_categories:
+  - classification

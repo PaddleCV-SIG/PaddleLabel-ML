@@ -1,2 +1,3 @@
 name: PaddleX Classification
-type: Classification
+task_categories:
+  - classification
