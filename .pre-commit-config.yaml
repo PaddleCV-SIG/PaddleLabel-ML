@@ -5,7 +5,7 @@ repos:
       - id: no-commit-to-branch
         args: [--branch, stable]
       - id: check-added-large-files
-        args: [--maxkb=16]
+        args: [--maxkb=32]
       - id: check-case-conflict
       - id: check-yaml
       - id: check-xml

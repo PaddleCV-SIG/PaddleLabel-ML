@@ -14,7 +14,6 @@ loaded_models = {}
 loading_models = set()
 
 models = get_models()
-
 print(models)
 
 
@@ -67,13 +66,12 @@ async def predict(model_name):
     if model_name in loading_models:
         abort(f"Model {model_name} is still loading, check back after 1 or 2 minutes!", 500)
 
-    res = {"result": loaded_models[model_name].predict(request.json)}
+    res = {"predictions": loaded_models[model_name].predict(request.json)}
     print(f"Inference took {time.time() - tic} s")
     return res
 
 
 async def load(model_name, reload=False):
-    print(model_name, reload)
     tic = time.time()
 
     params = request.json.get("init_params", {})
@@ -99,6 +97,7 @@ async def load(model_name, reload=False):
     loading_models.remove(model_name)
 
     loaded_models[model_name].load_time = time.time()
+    print(loaded_models)
     print(f"Load model {model_name} took {time.time() - tic} s")
     return f"Model {model_name} loaded", 200
 

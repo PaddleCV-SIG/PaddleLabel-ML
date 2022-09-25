@@ -18,8 +18,8 @@ class SampleModel(BaseModel):
         super().__init__(curr_path=Path(__file__).parent.absolute())
 
     def predict(self, req):
-        time.sleep(10)
-        return "finished"
+        time.sleep(5)
+        return [{"label_name": "Sample Label Name", "score": 0.9}]
 
 
 print("Sample called")
