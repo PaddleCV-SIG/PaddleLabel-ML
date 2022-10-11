@@ -1,4 +1,4 @@
-import os.path as osp
+from pathlib import Path
 import argparse
 import importlib
 
@@ -6,6 +6,8 @@ import connexion
 from flask_cors import CORS
 
 from paddlelabel_ml.util import get_models
+
+HERE = Path(__file__).parent.absolute()
 
 
 def run():
@@ -26,8 +28,9 @@ def run():
 
     connexion_app = connexion.App("paddlelabel_ml")
     connexion_app.add_api(
-        importlib.resources.path("paddlelabel_ml", "openapi.yml"),
-        # request with undefined param returns error, dont enforce body
+        # importlib.resources.path("paddlelabel_ml", "openapi.yml"),
+        HERE / "openapi.yml",
+        # request with undefined param returns error, wont enforce body
         strict_validation=True,
         pythonic_params=True,
     )

@@ -15,7 +15,6 @@ loaded_models = {}
 loading_models = set()
 
 models = get_models()
-print(models)
 
 
 def isBackendUp():

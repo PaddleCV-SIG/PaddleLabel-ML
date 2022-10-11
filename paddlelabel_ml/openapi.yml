@@ -3,7 +3,7 @@ info:
   title: PP Label ML backend API
   version: 0.1.0
 servers:
-  - url: 'http://localhost:1234/model/'
+  - url: 'http://localhost:1234'
 paths:
   /:
     get:
@@ -175,6 +175,10 @@ components:
           type: string
         interactive:
           type: boolean
+        label_names:
+          type: array
+          items:
+            type: string
   parameters:
     model_name:
       name: model_name
