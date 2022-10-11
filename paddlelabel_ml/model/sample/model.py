@@ -19,7 +19,13 @@ class SampleModel(BaseModel):
 
     def predict(self, req):
         time.sleep(5)
-        return [{"label_name": "Sample Label Name", "score": 0.9}]
+        return [
+            {
+                "label_name": "Sample Detection Result",
+                "score": 0.9,
+                "result": "wmin,hmin,wmax,hmax",
+            }
+        ]
 
 
 print("Sample called")

@@ -433,7 +433,7 @@ class DetPretrainNet(BaseModel):
             res[1] -= h // 2
             res[2] -= w // 2
             res[3] -= h // 2
-            res = map(str, res)
+            res = map(lambda v: str(int(v)), res)
             predictions.append(
                 {"label_name": self.model.pred_config.labels[int(b[0])], "score": str(b[1]), "result": ",".join(res)}
             )

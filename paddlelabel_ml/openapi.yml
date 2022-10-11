@@ -131,7 +131,7 @@ paths:
     post:
       parameters:
         - $ref: '#/components/parameters/model_name'
-      summary: Only loaded models can be used.
+      summary: Load a model into memory. Model must be loaded before being used.
       tags:
         - model
       x-openapi-router-controller: paddlelabel_ml.api
