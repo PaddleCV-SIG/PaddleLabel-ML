@@ -185,5 +185,6 @@ components:
       in: path
       schema:
         type: string
+        example: EISeg
       description: model name
       required: true
