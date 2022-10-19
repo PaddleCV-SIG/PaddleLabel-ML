@@ -437,7 +437,7 @@ class DetPretrainNet(BaseModel):
             predictions.append(
                 {"label_name": self.model.pred_config.labels[int(b[0])], "score": str(b[1]), "result": ",".join(res)}
             )
-        print(predictions)
+        # print(predictions)
 
         return predictions
 
