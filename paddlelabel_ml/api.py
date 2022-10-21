@@ -33,7 +33,6 @@ def getProgress():
 
 
 def train(model_name):
-    # print("train", model_name)
     load(model_name, reload=True)
     model = loaded_models[model_name]
 
@@ -76,7 +75,7 @@ async def load(model_name, reload=False):
 
     params = request.json.get("init_params", {})
 
-    # 1. backend has this model
+    # 1. ensure backend has this model
     if model_name not in models.keys():
         abort(f"No model named {model_name}", 404)
 
@@ -101,7 +100,6 @@ async def load(model_name, reload=False):
     loading_models.remove(model_name)
 
     loaded_models[model_name].load_time = time.time()
-    print(loaded_models)
     print(f"Load model {model_name} took {time.time() - tic} s")
     return f"Model {model_name} loaded", 200
 

@@ -424,7 +424,7 @@ class DetPretrainNet(BaseModel):
         if self.model is None:
             abort("Model is not loaded.")
         pred = self.model.run(img)
-        print(pred["boxes"], img.shape)
+        # print(pred["boxes"], img.shape)
         h, w, c = img.shape
         predictions = []
         for b in pred["boxes"]:
@@ -438,7 +438,6 @@ class DetPretrainNet(BaseModel):
                 {"label_name": self.model.pred_config.labels[int(b[0])], "score": str(b[1]), "result": ",".join(res)}
             )
         # print(predictions)
-
         return predictions
 
 
