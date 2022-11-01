@@ -2,7 +2,6 @@ name: Publish PaddleLabel-ML to pypi
 
 on: [workflow_dispatch]
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,13 +35,11 @@ jobs:
 
           cd PaddleLabel-ML
 
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install twine wheel
       #     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
       - name: Bump version
         run: |
           python tool/bumpversion.py
@@ -56,13 +53,13 @@ jobs:
       - name: Build package
         run: |
           python setup.py sdist bdist_wheel
-      
-      -name: Inspect files
+
+      - name: Inspect files
         run: |
           tree paddlelabel_ml/model/eiseg
           tree paddlelabel_ml/model/PicoDet
 
-      -name: Save built package
+      - name: Save built package
         uses: actions/upload-artifact@v3
         with:
           name: PaddleLabel-ML_built_package
