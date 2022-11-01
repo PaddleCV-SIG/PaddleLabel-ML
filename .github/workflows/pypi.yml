@@ -51,7 +51,7 @@ jobs:
         run: git config --global user.email "bot@github.com" && git config --global user.name "Action Bot"
 
       - name: Update version
-        run: git add paddlelabel_ml/version; git commit -m "chore(version): publish ci bump version"; git push
+        run: git add paddlelabel_ml/version; git commit -m "publish ci bump version"; git push
 
       - name: Build package
         run: |
