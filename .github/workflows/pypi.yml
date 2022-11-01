@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9"]
+        python-version: ["3.10"]
 
     steps:
       - uses: actions/checkout@v3
@@ -20,10 +20,22 @@ jobs:
 
       - name: Get default weights
         run: |
-          wget https://github.com/linhandev/static/releases/download/pdlabel/static_hrnet18_ocr64_cocolvis.zip -P ..
-          unzip ../static_hrnet18_ocr64_cocolvis.zip -d ..
-          mkdir -p paddlelabel_ml/model/eiseg/ckpt/
-          mv ../static_hrnet18_ocr64_cocolvis/* paddlelabel_ml/model/eiseg/ckpt/
+          cd ..
+          pwd
+          ls
+
+          wget https://github.com/linhandev/static/releases/download/v0.0.2/EISeg.zip
+          unzip EISeg.zip
+          mkdir -p ./PaddleLabel-ML/paddlelabel_ml/model/eiseg/ckpt/
+          mv ./EISeg/* ./PaddleLabel-ML/paddlelabel_ml/model/eiseg/ckpt/
+
+          wget https://github.com/linhandev/static/releases/download/v0.0.2/PicoDet.zip
+          unzip PicoDet.zip
+          mkdir -p ./PaddleLabel-ML/paddlelabel_ml/model/PicoDet/ckpt/
+          mv ./PicoDet/* ./PaddleLabel-ML/paddlelabel_ml/model/PicoDet/ckpt/
+
+          cd PaddleLabel-ML
+
 
       - name: Install dependencies
         run: |
@@ -39,14 +51,26 @@ jobs:
         run: git config --global user.email "bot@github.com" && git config --global user.name "Action Bot"
 
       - name: Update version
-        run: git add paddlelabel_ml/version; git commit -m "bump version"; git push
+        run: git add paddlelabel_ml/version; git commit -m "chore(version): publish ci bump version"; git push
 
       - name: Build package
         run: |
           python setup.py sdist bdist_wheel
+      
+      -name: Inspect files
+        run: |
+          tree paddlelabel_ml/model/eiseg
+          tree paddlelabel_ml/model/PicoDet
 
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      -name: Save built package
+        uses: actions/upload-artifact@v3
         with:
-          user: __token__
-          password: ${{ secrets.PADDLELABEL_ML_PUBLISH_API_TOKEN }}
+          name: PaddleLabel-ML_built_package
+          path: |
+            dist
+
+      # - name: Publish to PyPI
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     user: __token__
+      #     password: ${{ secrets.PADDLELABEL_ML_PUBLISH_API_TOKEN }}
