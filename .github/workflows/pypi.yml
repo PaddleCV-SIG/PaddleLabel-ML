@@ -40,9 +40,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install twine wheel
       #     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Bump version
-        run: |
-          python tool/bumpversion.py
+
+      # - name: Bump version
+      #   run: |
+      #     python tool/bumpversion.py
 
       - name: Config basic git info
         run: git config --global user.email "bot@github.com" && git config --global user.name "Action Bot"
