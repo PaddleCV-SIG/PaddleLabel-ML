@@ -89,14 +89,13 @@ async def load(model_name, reload=False):
             return f"Model {model_name} is already loaded", 200
 
     # 3. load model
-    model = importlib.import_module(models[model_name]["path"])
-    loading_models.add(model_name)
     try:
+        model = importlib.import_module(models[model_name]["path"])
+        loading_models.add(model_name)
         loaded_models[model_name] = model.Model(**params)
         loaded_models[model_name].params = params
-    except:
-        # TODO: add more specific error msg
-        abort("Model load failed", 500)
+    except Exception as e:
+        abort(f"Model load failed. {str(e)}", 500)
     loading_models.remove(model_name)
 
     loaded_models[model_name].load_time = time.time()
