@@ -96,7 +96,7 @@ async def load(model_name, reload=False):
         loaded_models[model_name].params = params
     except:
         # TODO: add more specific error msg
-        abort("Model load failed")
+        abort("Model load failed", 500)
     loading_models.remove(model_name)
 
     loaded_models[model_name].load_time = time.time()

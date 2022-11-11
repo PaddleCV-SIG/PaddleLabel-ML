@@ -33,6 +33,11 @@ jobs:
           mkdir -p ./PaddleLabel-ML/paddlelabel_ml/model/PicoDet/ckpt/
           mv ./PicoDet/* ./PaddleLabel-ML/paddlelabel_ml/model/PicoDet/ckpt/
 
+          wget https://github.com/linhandev/static/releases/download/v0.0.3/PPLCNetV2.zip
+          unzip PPLCNetV2.zip
+          mkdir -p ./PaddleLabel-ML/paddlelabel_ml/model/PPLCNetV2/ckpt/
+          mv ./PPLCNetV2/* ./PaddleLabel-ML/paddlelabel_ml/model/PPLCNetV2/ckpt/
+
           cd PaddleLabel-ML
 
       - name: Install dependencies
