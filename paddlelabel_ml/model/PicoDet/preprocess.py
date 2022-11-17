@@ -26,7 +26,7 @@ def decode_image(im_file, im_info, to_rgb=True):
         im (np.ndarray):  processed image (np.ndarray)
         im_info (dict): info of processed image
     """
-    print("im_file", im_file)
+    # print("im_file", im_file)
     if isinstance(im_file, str):
         with open(im_file, "rb") as f:
             im_read = f.read()

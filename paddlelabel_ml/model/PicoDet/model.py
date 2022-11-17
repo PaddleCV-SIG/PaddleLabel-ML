@@ -338,7 +338,7 @@ class Detector(object):
                         threshold=self.threshold,
                     )
             results.append(result)
-            print("Test iter {}".format(i))
+            # print("Test iter {}".format(i))
 
         results = self.merge_batch_result(results)
         return results
@@ -437,7 +437,7 @@ class DetPretrainNet(BaseModel):
             predictions.append(
                 {"label_name": self.model.pred_config.labels[int(b[0])], "score": str(b[1]), "result": ",".join(res)}
             )
-        # print(predictions)
+        predictions.sort(key=lambda r: r["score"], reverse=True)
         return predictions
 
 
