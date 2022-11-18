@@ -63,16 +63,6 @@ class Predictor:
         return pred_probs
 
 
-# model_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdmodel")
-# param_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdiparams")
-
-# img = np.ones((1024, 768, 3), dtype="uint8")
-# p = Predictor(model_path, param_path)
-# res = p.run(img, [[420, 127, True]])
-# res = p.run(img, [[420, 127, True], [100, 200, False]])
-# res = p.run(img, [[420, 127, True], [100, 200, False], [300, 400, False]])
-
-
 class EISeg(BaseModel):
     name = "EISeg"
 

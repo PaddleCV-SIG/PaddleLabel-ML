@@ -21,7 +21,7 @@ from .preprocess import preprocess, Resize, NormalizeImage, Permute, PadStride, 
 from .postprocess import PicoDetPostProcess
 from .visualize import visualize
 from paddlelabel_ml.model import BaseModel
-from paddlelabel_ml.util import abort
+from paddlelabel_ml.util import abort, use_gpu
 
 
 def load_predictor(
@@ -72,6 +72,7 @@ def load_predictor(
         config.enable_use_gpu(200, 0)
         # optimize graph and fuse op
         config.switch_ir_optim(True)
+        print("using gpu:", use_gpu)
     else:
         config.disable_gpu()
         config.set_cpu_math_library_num_threads(cpu_threads)
@@ -145,7 +146,7 @@ class Detector(object):
     def __init__(
         self,
         model_dir,
-        use_gpu=False,
+        use_gpu=use_gpu,
         run_mode="paddle",
         batch_size=1,
         trt_min_shape=1,
