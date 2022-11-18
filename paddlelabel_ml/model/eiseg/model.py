@@ -7,7 +7,7 @@ import paddle
 import paddle.inference as paddle_infer
 
 from paddlelabel_ml.model import BaseModel
-from paddlelabel_ml.util import abort
+from paddlelabel_ml.util import abort, use_gpu
 from typing import List
 from .inference.clicker import Clicker, Click
 from .inference.predictor import get_predictor
@@ -27,6 +27,9 @@ class Predictor:
         config.enable_mkldnn_bfloat16()
         config.switch_ir_optim(True)
         config.set_cpu_math_library_num_threads(10)
+        if use_gpu:
+            config.enable_use_gpu(100)
+        print("+_+_++", config.use_gpu())
         self.eiseg = paddle_infer.create_predictor(config)
 
         self.predictor_params = {
