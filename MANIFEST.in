@@ -7,5 +7,7 @@ include paddlelabel_ml/openapi.yml
 include paddlelabel_ml/model/*/ckpt/*
 include paddlelabel_ml/model/*/info.yaml
 
+include paddlelabel_ml/model/PPLCNetV2/labels.txt
+
 include paddlelabel_ml/model/eiseg/util/cython/_get_dist_maps.pyx
 include paddlelabel_ml/model/eiseg/util/cython/_get_dist_maps.pyxbld
