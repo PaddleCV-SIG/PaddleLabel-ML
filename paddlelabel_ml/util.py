@@ -3,6 +3,8 @@ from pathlib import Path
 
 import yaml
 import connexion
+import paddle
+
 
 HERE = Path(__file__).parent.absolute()
 

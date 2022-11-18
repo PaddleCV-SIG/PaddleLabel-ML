@@ -12,10 +12,11 @@ from .operators import *
 from .postprocess import Topk
 from paddlelabel_ml.model import BaseModel
 from paddlelabel_ml.util import abort
+from paddlelabel_ml.util import use_gpu
 
 
 class Predictor:
-    def __init__(self, model_path: str, param_path: str, use_gpu=False):
+    def __init__(self, model_path: str, param_path: str, use_gpu=use_gpu):
 
         model_path = osp.abspath(model_path)
         param_path = osp.abspath(param_path)
@@ -40,7 +41,8 @@ class Predictor:
                 ToCHWImage(),
             ]
         )
-        self.topk = Topk(5, class_id_map_file="labels.txt")
+        self.topk = Topk(1, class_id_map_file="labels.txt")
+        print("using gpu:", use_gpu)
 
     def preprocess(self, image):
         return self.transforms(image)
@@ -92,6 +94,21 @@ class ClassPretrainNet(BaseModel):
 
     def predict(self, req):
         img = self.get_image(req)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        # print(img.max(), img.min())
+        # print(img[0,:,0])
+        # print(img.shape)
+        # img_cv = cv2.imread("/home/pdlabel/.paddlelabel/sample/bear/classification/singleClass/1/1.jpeg")
+        # print(img_cv.max(), img_cv.min())
+        # print(img_cv[0,:,0])
+        # print((img == img_cv).sum(), img.size)
+
+        # for i in range(img.shape[0]):
+        #     for j in range(img.shape[1]):
+        #         for k in range(img.shape[2]):
+        #             if img[i][j][k] != img_cv[i][j][k]:
+        #                 print(img[i][j][k], img_cv[i][j][k])
+
         if self.model is None:
             abort("Model is not loaded.")
         pred = self.model.run(img)[0]

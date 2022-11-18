@@ -1,8 +1,11 @@
 import time
 import importlib
 import copy
+import subprocess
+import sys
 
 from connexion import request
+import paddle
 
 from paddlelabel_ml.util import abort, get_models
 from paddlelabel_ml.model.base.model import BaseModel
