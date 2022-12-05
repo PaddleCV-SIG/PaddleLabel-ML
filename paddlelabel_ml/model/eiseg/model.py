@@ -29,7 +29,6 @@ class Predictor:
         config.set_cpu_math_library_num_threads(10)
         if use_gpu:
             config.enable_use_gpu(100)
-        print("+_+_++", config.use_gpu())
         self.eiseg = paddle_infer.create_predictor(config)
 
         self.predictor_params = {
