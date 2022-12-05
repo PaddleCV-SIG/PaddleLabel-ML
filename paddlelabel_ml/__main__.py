@@ -41,6 +41,7 @@ def run():
         strict_validation=True,
         pythonic_params=True,
     )
+    connexion_app.add_error_handler(Exception, util.backend_error)
 
     CORS(connexion_app.app)
 

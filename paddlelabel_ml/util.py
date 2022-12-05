@@ -1,5 +1,6 @@
 import importlib
 from pathlib import Path
+import traceback
 
 import yaml
 import connexion
@@ -28,3 +29,20 @@ def get_models(model_fdr="model"):
 
 def abort(detail, status, title=""):
     raise connexion.exceptions.ProblemException(detail=detail, title=title, status=status, headers={"message": detail})
+
+
+def backend_error(error):
+    """global error handling for backend
+
+    Args:
+        error (Exception): Any exception raised
+
+    Returns:
+        dict, int: response body, status code
+    """
+    print(traceback.format_exc())
+    return {
+        "title": "Backend error: " + str(error),
+        "detail": "Backend error: " + str(error),
+        "status": 500,
+    }, 500

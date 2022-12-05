@@ -74,6 +74,7 @@ async def predict(model_name):
 
 
 async def load(model_name, reload=False):
+    1 / 0
     tic = time.time()
 
     params = request.json.get("init_params", {})
