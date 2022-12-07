@@ -11,7 +11,7 @@ from paddlelabel_ml import util
 HERE = Path(__file__).parent.absolute()
 
 
-def run():
+def parse_args():
     parser = argparse.ArgumentParser(description="PP Label")
     parser.add_argument(
         "--lan",
@@ -31,13 +31,25 @@ def run():
         action="store_true",
         help="Force cpu mode, if not set, will use gpu if avaliable",
     )
+    parser.add_argument(
+        "--debug",
+        "-d",
+        default=False,
+        action="store_true",
+        help="Run in debug mode",
+    )
+
     args = parser.parse_args()
+
+    return args
+
+
+def run():
+    args = parse_args()
 
     connexion_app = connexion.App("paddlelabel_ml")
     connexion_app.add_api(
-        # importlib.resources.path("paddlelabel_ml", "openapi.yml"),
         HERE / "openapi.yml",
-        # request with undefined param returns error, wont enforce body
         strict_validation=True,
         pythonic_params=True,
     )
@@ -54,7 +66,7 @@ def run():
         use_gpu = has_gpu
     util.use_gpu = use_gpu
 
-    connexion_app.run(host=host, port=args.port, debug=True)
+    connexion_app.run(host=host, port=args.port, debug=args.debug)
 
 
 if __name__ == "__main__":
