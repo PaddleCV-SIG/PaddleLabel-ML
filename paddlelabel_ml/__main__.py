@@ -1,6 +1,7 @@
 from pathlib import Path
 import argparse
 import importlib
+import logging
 
 import connexion
 from flask_cors import CORS
@@ -12,7 +13,7 @@ HERE = Path(__file__).parent.absolute()
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="PP Label")
+    parser = argparse.ArgumentParser(description="PaddleLabel ML")
     parser.add_argument(
         "--lan",
         default=False,
@@ -37,6 +38,13 @@ def parse_args():
         default=False,
         action="store_true",
         help="Run in debug mode",
+    )
+    parser.add_argument(
+        "--verbose",
+        "-v",
+        default=False,
+        action="store_true",
+        help="Output more log in command line, if not set, cmd will only output error",
     )
 
     args = parser.parse_args()
@@ -65,6 +73,28 @@ def run():
         has_gpu = "gpu" in paddle.device.get_device()
         use_gpu = has_gpu
     util.use_gpu = use_gpu
+
+    logger = logging.getLogger("PaddleLabel-ML")
+    logger.setLevel(logging.INFO)
+    ch = logging.StreamHandler()
+    formatter = logging.Formatter("[%(levelname)s]%(module)s.%(lineno)d: %(message)s")
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
+    logging.getLogger("werkzeug").setLevel(logging.ERROR)
+    logging.getLogger("PaddleLabel").setLevel(logging.ERROR)
+    logging.getLogger("connexion").setLevel(logging.ERROR)
+
+    if args.verbose:
+        logging.getLogger("werkzeug").setLevel(logging.INFO)
+        logging.getLogger("PaddleLabel").setLevel(logging.DEBUG)
+
+    if args.debug:
+        logging.getLogger("werkzeug").setLevel(logging.ERROR)
+        logging.getLogger("PaddleLabel").setLevel(logging.DEBUG)
+
+    # logger.info("App starting")
+    print(f"PaddleLabel-ML is running at http://localhost:{args.port}")
 
     connexion_app.run(host=host, port=args.port, debug=args.debug)
 
