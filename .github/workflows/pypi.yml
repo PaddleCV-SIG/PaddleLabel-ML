@@ -7,7 +7,7 @@ on:
         description: "Publish to pupi"
         required: false
         default: false
-        type: string
+        type: boolean
 
 jobs:
   build:
