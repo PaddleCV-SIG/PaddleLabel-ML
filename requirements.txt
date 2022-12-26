@@ -7,7 +7,7 @@ numpy==1.23 # till paddleocr fixes np.int
 tqdm
 flask_cors
 
-# 
+#
 scipy
 
 # ocr

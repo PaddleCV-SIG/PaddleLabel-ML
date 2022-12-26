@@ -1,14 +1,14 @@
 name: PaddleOCR
 languages:
-  - ch 
-  - en 
-  - korean 
-  - japan 
-  - chinese_cht 
-  - ta 
-  - te 
-  - ka 
-  - latin 
-  - arabic 
-  - cyrillic 
+  - ch
+  - en
+  - korean
+  - japan
+  - chinese_cht
+  - ta
+  - te
+  - ka
+  - latin
+  - arabic
+  - cyrillic
   - devanagari

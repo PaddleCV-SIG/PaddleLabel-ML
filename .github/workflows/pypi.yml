@@ -73,11 +73,11 @@ jobs:
           name: PaddleLabel-ML_built_package
           path: |
             dist
-      
+
       - name: test
         if: ${{ ( inputs.publish == 'true' ) }}
         run: echo "publish true"
-      
+
       # - name: Publish to PyPI
       #   uses: pypa/gh-action-pypi-publish@release/v1
       #   with:

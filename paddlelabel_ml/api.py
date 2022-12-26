@@ -19,7 +19,7 @@ loading_models = set()
 
 models = get_models()
 
-# print(models)
+print(models)
 
 
 def isBackendUp():
@@ -63,18 +63,6 @@ def getProgresss(model_name):
     pass
 
 
-async def predict(model_name):
-    tic = time.time()
-    if model_name not in loaded_models.keys():
-        abort(f"Model {model_name} not loaded, call load endpoint first!", 500)
-    if model_name in loading_models:
-        abort(f"Model {model_name} is still loading, check back after 1 or 2 minutes!", 500)
-
-    res = {"predictions": loaded_models[model_name].predict(request.json)}
-    print(f"Inference took {time.time() - tic} s")
-    return res
-
-
 async def load(model_name, reload=False):
     tic = time.time()
 
@@ -106,6 +94,18 @@ async def load(model_name, reload=False):
     loaded_models[model_name].load_time = time.time()
     print(f"Load model {model_name} took {time.time() - tic} s")
     return f"Model {model_name} loaded", 200
+
+
+async def predict(model_name):
+    tic = time.time()
+    if model_name not in loaded_models.keys():
+        abort(f"Model {model_name} not loaded, call load endpoint first!", 500)
+    if model_name in loading_models:
+        abort(f"Model {model_name} is still loading, check back after 1 or 2 minutes!", 500)
+
+    res = {"predictions": loaded_models[model_name].predict(request.json)}
+    print(f"Inference took {time.time() - tic} s")
+    return res
 
 
 def unload(model_name):
