@@ -2,6 +2,7 @@ import base64
 import io
 import os
 import os.path as osp
+import tempfile
 
 from PIL import Image
 import cv2
@@ -30,26 +31,32 @@ class BaseModel:
         else:
             self.output_path = osp.join(self.ckpt_path, "run", str(max(runs) + 1))
 
-    def get_image(self, req):
+    def get_image(self, req, file=False):
         if req["format"] == "b64":
-            return self.decodeb64(req["img"])
+            return self.decodeb64(req["img"], file=file)
 
         if req["format"] == "path":
             img = cv2.cvtColor(cv2.imread(req["img"]), cv2.COLOR_BGR2RGB)
             return img
 
-    def decodeb64(self, img_b64):
+    def decodeb64(self, img_b64, file=False):
         img = img_b64.encode("ascii")
         img = base64.b64decode(img)
-        img = Image.open(io.BytesIO(img))
-        img = img.convert("RGB")
-        img = np.asarray(img)
-        print("Image shape:", img.shape)
+        if file:
+            # WARNING: not tested
+            temp = tempfile.TemporaryFile()
+            temp.write(img)
+            return temp
+        else:
+            img = Image.open(io.BytesIO(img))
+            img = img.convert("RGB")
+            img = np.asarray(img)
+            print("Image shape:", img.shape)
 
-        # plt.imshow(img)
-        # plt.savefig('/pwd/test.png')
+            # plt.imshow(img)
+            # plt.savefig('/pwd/test.png')
 
-        return img
+            return img
 
     def pretrain_check(
         self,

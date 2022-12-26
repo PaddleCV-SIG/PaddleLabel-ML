@@ -7,8 +7,8 @@ ckpt/
 *.pdmodel
 *.png
 *.jpg
-.vscode/
 .idea/
+*/zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
