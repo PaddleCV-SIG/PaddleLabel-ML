@@ -1,6 +1,13 @@
 name: Publish PaddleLabel-ML to pypi
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish to pupi"
+        required: false
+        default: false
+        type: string
 
 jobs:
   build:
@@ -44,7 +51,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install twine wheel
-      #     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       # - name: Bump version
       #   run: |
@@ -67,9 +73,13 @@ jobs:
           name: PaddleLabel-ML_built_package
           path: |
             dist
-
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: __token__
-          password: ${{ secrets.PADDLELABEL_ML_PUBLISH_API_TOKEN }}
+      
+      - name: test
+        if: ${{ ( inputs.publish == 'true' ) }}
+        run: echo "publish true"
+      
+      # - name: Publish to PyPI
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     user: __token__
+      #     password: ${{ secrets.PADDLELABEL_ML_PUBLISH_API_TOKEN }}
