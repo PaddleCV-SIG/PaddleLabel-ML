@@ -1,4 +1,4 @@
-name: Publish PaddleLabel-ML to pypi
+name: Build PaddleLabel-ML package
 
 on:
   workflow_dispatch:
@@ -75,7 +75,7 @@ jobs:
             dist
 
       - name: test
-        if: ${{ ( inputs.publish == 'true' ) }}
+        if: ${{ inputs.publish  }}
         run: echo "publish true"
 
       # - name: Publish to PyPI
