@@ -26,6 +26,8 @@ class PPOCR(BaseModel):
             abort("Model is not loaded.")
 
         img = self.get_image(req)
+        height, width, _ = img.shape
+        print(height, width)
         res = self.model.ocr(img=img)
 
         """
@@ -147,7 +149,8 @@ class PPOCR(BaseModel):
             p1.w|p1.h|....|pn.w|pn.h|(固定为空，表示点结束)|transcription|illegibility(0/1)|language
             """
 
-            result = "|".join(f"{p[0]:.0f}|{p[1]:.0f}" for p in line[0]) + "||"
+            # result = "|".join(f"{p[0]:.0f}|{p[1]:.0f}" for p in line[0]) + "||"
+            result = "|".join(f"{p[0]-width/2:.1f}|{p[1]-height/2:.1f}" for p in line[0]) + "||"
             result += f"{line[1][0]}|1|{self.lang}"
             results.append(
                 {
