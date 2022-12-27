@@ -92,6 +92,7 @@ def run():
     if args.debug:
         logging.getLogger("werkzeug").setLevel(logging.ERROR)
         logging.getLogger("PaddleLabel").setLevel(logging.DEBUG)
+        print("Version:", (HERE / "version").read_text().strip())
 
     # logger.info("App starting")
     print(f"PaddleLabel-ML is running at http://localhost:{args.port}")
