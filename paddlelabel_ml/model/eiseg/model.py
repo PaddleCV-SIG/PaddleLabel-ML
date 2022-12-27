@@ -66,9 +66,11 @@ class Predictor:
 
 
 class EISeg(BaseModel):
-    name = "EISeg"
-
-    def __init__(self, model_path: str = None, param_path: str = None):
+    def __init__(
+        self,
+        model_path: str = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdmodel"),
+        param_path: str = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdiparams"),
+    ):
         """
         init model
 
@@ -77,23 +79,14 @@ class EISeg(BaseModel):
             param_path (str, optional):
         """
         super().__init__(curr_path=curr_path)
-        if model_path is None:
-            model_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdmodel")
-            # model_path = osp.normpath(model_path)
-            print("======== model_path ========", model_path)
-        else:
-            if not osp.exists(model_path):
-                abort(f"No model file found at path {model_path}")
-        if param_path is None:
-            param_path = osp.join(curr_path, "ckpt", "static_hrnet18_ocr64_cocolvis.pdiparams")
-            print("======== param_path ========", param_path)
-        else:
-            if not osp.exists(param_path):
-                abort(f"No parameter file found at path {param_path}")
+        if not osp.exists(model_path):
+            abort(f"No model file found at path {model_path}")
+
+        if not osp.exists(param_path):
+            abort(f"No parameter file found at path {param_path}")
         self.model = Predictor(model_path, param_path)
 
     def predict(self, req):
-        print("req", req["other"]["clicks"], type(req["other"]["clicks"]))
         clicks = req["other"]["clicks"]
         print("clicks", clicks)
         img = self.get_image(req)

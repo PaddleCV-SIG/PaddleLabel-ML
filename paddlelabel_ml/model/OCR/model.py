@@ -1,11 +1,10 @@
-import os
 import os.path as osp
-import inspect
 
 from paddleocr import PaddleOCR, draw_ocr
 
 from paddlelabel_ml.model import BaseModel
 from paddlelabel_ml.util import abort
+from paddlelabel_ml.util import use_gpu
 
 curr_path = osp.abspath(osp.dirname(__file__))
 
@@ -13,16 +12,14 @@ curr_path = osp.abspath(osp.dirname(__file__))
 class PPOCR(BaseModel):
     name = "Paddle OCR"
 
-    def __init__(self, lang="ch"):
+    def __init__(self, lang="ch", use_gpu=use_gpu):
         """
         init model
         """
         super().__init__(curr_path=curr_path)
 
-        self.model = PaddleOCR(lang=lang)
+        self.model = PaddleOCR(lang=lang, use_gpu=use_gpu)
         self.lang = lang
-
-        inspect.signature(self.model.ocr)
 
     def predict(self, req):
         if self.model is None:

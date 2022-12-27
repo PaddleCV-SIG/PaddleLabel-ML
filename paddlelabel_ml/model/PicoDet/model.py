@@ -407,8 +407,6 @@ class Detector(object):
 
 
 class DetPretrainNet(BaseModel):
-    name = "ClassPretrainNet"
-
     def __init__(self, model_path: str = HERE / "ckpt"):
         """
         init model

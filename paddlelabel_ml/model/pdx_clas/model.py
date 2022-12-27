@@ -12,8 +12,6 @@ curr_path = osp.abspath(osp.dirname(__file__))
 
 
 class PdxMobilenetv2(BaseModel):
-    name = "Pdx Mobilenetv2 Classfication"
-
     def __init__(self, param_path=osp.join(curr_path, "ckpt", "best_model")):
         """
         init model

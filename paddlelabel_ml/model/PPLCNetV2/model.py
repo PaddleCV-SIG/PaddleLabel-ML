@@ -66,7 +66,11 @@ class Predictor:
 
 
 class ClassPretrainNet(BaseModel):
-    def __init__(self, model_path: str = None, param_path: str = None):
+    def __init__(
+        self,
+        model_path: str = osp.join(curr_path, "ckpt", "inference.pdmodel"),
+        param_path: str = osp.join(curr_path, "ckpt", "inference.pdiparams"),
+    ):
         """
         init model
 
@@ -75,19 +79,11 @@ class ClassPretrainNet(BaseModel):
             param_path (str, optional):
         """
         super().__init__(curr_path=curr_path)
-        if model_path is None:
-            model_path = osp.join(curr_path, "ckpt", "inference.pdmodel")
-            # model_path = osp.normpath(model_path)
-            print("======== model_path ========", model_path)
-        else:
-            if not osp.exists(model_path):
-                abort(f"No model file found at path {model_path}")
-        if param_path is None:
-            param_path = osp.join(curr_path, "ckpt", "inference.pdiparams")
-            print("======== param_path ========", param_path)
-        else:
-            if not osp.exists(param_path):
-                abort(f"No parameter file found at path {param_path}")
+
+        if not osp.exists(model_path):
+            abort(f"No model file found at path {model_path}")
+        if not osp.exists(param_path):
+            abort(f"No parameter file found at path {param_path}")
         self.model = Predictor(model_path, param_path)
         lines = [l.strip().split(" ") for l in open(HERE / "labels.txt", "r").readlines()]
         self.label_id2name = {int(l[0]): " ".join(l[1:]) for l in lines}
