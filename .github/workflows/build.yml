@@ -1,6 +1,9 @@
 name: Build PaddleLabel-ML package
 
 on:
+  push:
+    branches:
+      - develop
   workflow_dispatch:
     inputs:
       publish:
@@ -52,15 +55,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install twine wheel
 
-      # - name: Bump version
-      #   run: |
-      #     python tool/bumpversion.py
-      #     git config --global user.email "bot@github.com" && git config --global user.name "Action Bot"
-      #     git add paddlelabel_ml/version; git commit -m "bump version"; git push
-
       - name: Build package
         run: |
           python setup.py sdist bdist_wheel
+
+      - name: Bump version
+        run: |
+          python tool/bumpversion.py
+          git config --global user.email "bot@github.com" && git config --global user.name "Action Bot"
+          git add paddlelabel_ml/version; git commit -m "bump version"; git push
 
       - name: Inspect files
         run: |
@@ -74,12 +77,13 @@ jobs:
           path: |
             dist
 
-      - name: test
-        if: ${{ inputs.publish  }}
-        run: echo "publish true"
+      # - name: test
+      #   if: ${{ inputs.publish  }}
+      #   run: echo "publish true"
 
-      # - name: Publish to PyPI
-      #   uses: pypa/gh-action-pypi-publish@release/v1
-      #   with:
-      #     user: __token__
-      #     password: ${{ secrets.PADDLELABEL_ML_PUBLISH_API_TOKEN }}
+      - name: Publish to PyPI
+        if: ${{ inputs.publish  }}
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PADDLELABEL_ML_PUBLISH_API_TOKEN }}
