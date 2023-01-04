@@ -148,8 +148,6 @@ paths:
               properties:
                 init_params:
                   type: object
-                lang:
-                  type: string
   "/{model_name}/unload":
     get:
       parameters:
