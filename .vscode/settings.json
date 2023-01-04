@@ -1,3 +1,6 @@
 {
+    "cSpell.words": [
+        "dtype"
+    ],
     "python.formatting.provider": "black"
 }

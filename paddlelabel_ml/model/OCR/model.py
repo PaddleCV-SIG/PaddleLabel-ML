@@ -1,6 +1,6 @@
 import os.path as osp
 
-from paddleocr import PaddleOCR, draw_ocr
+from paddleocr import PaddleOCR
 
 from paddlelabel_ml.model import BaseModel
 from paddlelabel_ml.util import abort
@@ -18,6 +18,7 @@ class PPOCR(BaseModel):
         """
         super().__init__(curr_path=curr_path)
 
+        print(f"Loading PPOCR model, language {lang}")
         self.model = PaddleOCR(lang=lang, use_gpu=use_gpu)
         self.lang = lang
 

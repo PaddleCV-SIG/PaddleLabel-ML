@@ -3,7 +3,7 @@ connexion[swagger-ui]
 
 Pillow
 opencv-python
-numpy==1.23 # till paddleocr fixes np.int
+numpy==1.23.5 # till paddleocr fixes np.int
 tqdm
 flask_cors
 
