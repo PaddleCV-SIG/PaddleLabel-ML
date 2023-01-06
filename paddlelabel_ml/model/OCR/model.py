@@ -4,6 +4,8 @@ from paddleocr import PaddleOCR
 
 from paddlelabel_ml.model import BaseModel
 from paddlelabel_ml.util import abort
+
+# TODO: move use_gpu to api.py
 from paddlelabel_ml.util import use_gpu
 
 curr_path = osp.abspath(osp.dirname(__file__))
