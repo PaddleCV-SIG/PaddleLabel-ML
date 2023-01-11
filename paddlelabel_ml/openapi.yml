@@ -107,8 +107,10 @@ paths:
                   type: string
                 format:
                   type: string
-                create_label:
-                  type: boolean
+                # create_label:
+                #   type: boolean
+                piggyback:
+                  type: object
                 other:
                   type: object
                   properties:

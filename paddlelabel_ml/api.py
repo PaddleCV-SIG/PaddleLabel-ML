@@ -103,7 +103,16 @@ async def predict(model_name):
     if model_name in loading_models:
         abort(f"Model {model_name} is still loading, check back after 1 or 2 minutes!", 500)
 
+    params = request.json
+    if "piggyback" in params.keys():
+        piggy_value = params["piggyback"]
+        del params["piggyback"]
+    else:
+        piggy_value = None
+
     res = {"predictions": loaded_models[model_name].predict(request.json)}
+    if piggy_value is not None:
+        res["piggyback"] = piggy_value
     print(f"Inference took {time.time() - tic} s")
     return res
 
