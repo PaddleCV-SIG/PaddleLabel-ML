@@ -29,7 +29,9 @@ setup(
     entry_points={
         "console_scripts": [
             "paddlelabel_ml=paddlelabel_ml.__main__:run",
+            "paddlelabel-ml=paddlelabel_ml.__main__:run",
             "pdlabel_ml=paddlelabel_ml.__main__:run",
+            "pdlabel-ml=paddlelabel_ml.__main__:run",
         ]
     },
 )
