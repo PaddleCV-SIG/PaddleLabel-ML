@@ -1,14 +1,10 @@
 import time
 import importlib
 import copy
-import subprocess
-import sys
 
 from connexion import request
-import paddle
 
 from paddlelabel_ml.util import abort, get_models
-from paddlelabel_ml.model.base.model import BaseModel
 
 
 # TODO: switch to a thread safe approach
@@ -19,9 +15,8 @@ loading_models = set()
 
 models = get_models()
 
-# print(models)
 
-
+# TODO: change this to return version
 def isBackendUp():
     return True
 
@@ -38,7 +33,7 @@ def getProgress():
 
 
 def train(model_name):
-    load(model_name, reload=True)
+    load(model_name, reload=True)  # TODO: this is causing bug?
     model = loaded_models[model_name]
 
     if model.training:

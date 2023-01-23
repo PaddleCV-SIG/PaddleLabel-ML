@@ -51,7 +51,7 @@ class BaseModel:
             img = Image.open(io.BytesIO(img))
             img = img.convert("RGB")
             img = np.asarray(img)
-            print("Image shape:", img.shape)
+            # print("Image shape:", img.shape)
 
             # plt.imshow(img)
             # plt.savefig('/pwd/test.png')

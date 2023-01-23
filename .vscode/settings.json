@@ -2,7 +2,8 @@
     "cSpell.words": [
         "dtype",
         "paddlelabel",
-        "pdlabel"
+        "pdlabel",
+        "Progresss"
     ],
     "python.formatting.provider": "black"
 }
