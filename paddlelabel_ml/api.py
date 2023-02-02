@@ -5,7 +5,7 @@ import copy
 from connexion import request
 
 from paddlelabel_ml.util import abort, get_models
-
+import paddlelabel_ml
 
 # TODO: switch to a thread safe approach
 global loaded_models
@@ -16,9 +16,12 @@ loading_models = set()
 models = get_models()
 
 
-# TODO: change this to return version
 def isBackendUp():
     return True
+
+
+def getVersion():
+    return paddlelabel_ml.version
 
 
 def getAll():

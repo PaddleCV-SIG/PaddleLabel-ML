@@ -88,5 +88,5 @@ class PdxMobilenetv2(BaseModel):
             pretrain_weights=self.pretrain_weights_path,
             use_vdl=True,
         )
-        # copycontent(osp.join(self.output_path, "best_model"), osp.join(self.ckpt_path, "best_model"))
+        # copy_content(osp.join(self.output_path, "best_model"), osp.join(self.ckpt_path, "best_model"))
         self.model = pdx.load_model(self.param_path)

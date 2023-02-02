@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: PP Label ML backend API
-  version: 0.1.0
+  version: 1.0.0
 servers:
   - url: "http://localhost:1234"
 paths:
@@ -37,6 +37,20 @@ paths:
       x-openapi-router-controller: paddlelabel_ml.api
       operationId: isBackendUp
       description: Detect ml backend running
+  /version:
+    get:
+      summary: Get ml backend version
+      tags:
+        - model
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      x-openapi-router-controller: paddlelabel_ml.api
+      operationId: getVersion
   "/{model_name}/train":
     post:
       parameters:
@@ -107,8 +121,6 @@ paths:
                   type: string
                 format:
                   type: string
-                # create_label:
-                #   type: boolean
                 piggyback:
                   type: object
                 other:
