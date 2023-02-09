@@ -1,7 +1,5 @@
 import os
 import os.path as osp
-import yaml
-import glob
 import json
 from pathlib import Path
 from functools import reduce
@@ -12,7 +10,6 @@ HERE = Path(__file__).parent.absolute()
 import cv2
 import numpy as np
 import math
-import paddle
 from paddle.inference import Config
 from paddle.inference import create_predictor
 
@@ -421,17 +418,17 @@ class DetPretrainNet(BaseModel):
     def predict(self, req):
         img = self.get_image(req)
         if self.model is None:
-            abort("Model is not loaded.")
+            abort("Model is not loaded.", 404)
         pred = self.model.run(img)
         # print(pred["boxes"], img.shape)
-        h, w, c = img.shape
+        # h, w, c = img.shape
         predictions = []
         for b in pred["boxes"]:
             res = b[2:]
-            res[0] -= w // 2
-            res[1] -= h // 2
-            res[2] -= w // 2
-            res[3] -= h // 2
+            # res[0] -= w // 2
+            # res[1] -= h // 2
+            # res[2] -= w // 2
+            # res[3] -= h // 2
             res = map(lambda v: str(int(v)), res)
             predictions.append(
                 {"label_name": self.model.pred_config.labels[int(b[0])], "score": str(b[1]), "result": ",".join(res)}

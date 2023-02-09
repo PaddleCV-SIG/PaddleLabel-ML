@@ -1,7 +1,7 @@
 # Project Specific
 output/
 data/
-ckpt/
+**/ckpt/
 *.pdiparams
 *.pdiparams.info
 *.pdmodel
@@ -9,6 +9,7 @@ ckpt/
 *.jpg
 .idea/
 */zip
+**/.stoplight/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
