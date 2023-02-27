@@ -435,12 +435,3 @@ class DetPretrainNet(BaseModel):
             )
         predictions.sort(key=lambda r: r["score"], reverse=True)
         return predictions
-
-
-if __name__ == "__main__":
-    model = Detector("/Users/haoyuying/Documents/ml_pretrain/picodet_s_416_coco_lcnet_with_postprocess")
-    # image = "/Users/haoyuying/Documents/PaddleDetection/demo/000000014439.jpg"
-    image = cv2.imread("/Users/haoyuying/Documents/PaddleDetection/demo/000000014439.jpg")
-    output = model.run(image)
-
-    print(output)
